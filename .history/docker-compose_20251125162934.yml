@@ -1,5 +1,6 @@
+
 services:
-  # 1. The Database
+  # 1. The Postgres Database
   postgres:
     image: postgres:15-alpine
     container_name: authnlogix-db
@@ -8,13 +9,13 @@ services:
       POSTGRES_PASSWORD: authnpassword
       POSTGRES_DB: authnlogix_db
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - authn-network
 
-  # 2. Database GUI
+  # 2. Database GUI (So you don't need to install Postgres locally)
   pgadmin:
     image: dpage/pgadmin4:7
     container_name: authnlogix-pgadmin
@@ -28,7 +29,7 @@ services:
     networks:
       - authn-network
 
-  # 3. Caching (Redis)
+  # 3. Caching & Messaging
   redis:
     image: redis:7-alpine
     container_name: authnlogix-redis
@@ -37,11 +38,9 @@ services:
     networks:
       - authn-network
 
-# Define the volumes
 volumes:
   postgres_data:
 
-# Define the network explicitly here
 networks:
   authn-network:
     driver: bridge
