@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # 1. The Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: authnlogix-db
+    environment:
+      POSTGRES_USER: nexuser
+      POSTGRES_PASSWORD: nexpassword
+      POSTGRES_DB: nexlogix_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nex-network
+
+  # 2. Database GUI (So you don't need to install Postgres locally)
+  pgadmin:
+    image: dpage/pgadmin4:7
+    container_name: nexlogix-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@nexlogix.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - nex-network
+
+  # 3. Caching & Messaging
+  redis:
+    image: redis:7-alpine
+    container_name: nexlogix-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - nex-network
+
+volumes:
+  postgres_data:
+
+networks:
+  nex-network:
+    driver: bridge
