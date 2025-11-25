@@ -5,7 +5,7 @@ spring:
   datasource:
     # Notice we use localhost here because Spring is running on your HOST machine,
     # talking to the Docker container's exposed port 5432.
-    url: jdbc:postgresql://localhost:5432/authnlogix_db
+    url: jdbc:postgresql://localhost:5433/authnlogix_db
     username: authnuser
     password: authnpassword
     driver-class-name: org.postgresql.Driver
