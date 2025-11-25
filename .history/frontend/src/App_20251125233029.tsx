@@ -2,6 +2,7 @@ import { LoginForm } from "./shared/ui/LoginForm";
 import "./index.css";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { LoginForm } from "./features/auth/ui/LoginForm";
 import { DashboardPage } from "./pages/dashboard/DashboardPage";
 import { useAuthStore } from "./entities/session/model/authStore";
 
@@ -17,13 +18,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Route */}
-        <Route
-          path="/"
+        <Route 
+          path="/" 
           element={
             <div className="flex items-center justify-center min-h-screen bg-black">
               <LoginForm />
             </div>
-          }
+          } 
         />
 
         {/* Protected Route */}
