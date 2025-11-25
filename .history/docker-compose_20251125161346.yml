@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # 1. The Postgres Database
+  # 1. The PostDatabase
   postgres:
     image: postgres:15-alpine
     container_name: authnlogix-db
