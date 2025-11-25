@@ -46,7 +46,7 @@ export const LoginForm = () => {
       // 2. Redirect to Dashboard
       console.log("Redirecting to dashboard...");
       navigate("/dashboard");
-    } catch {
+    } catch (error) {
       setApiError("Invalid email or password");
     } finally {
       setIsLoading(false);

@@ -1,8 +1,7 @@
 import { useAuthStore } from "../../entities/session/model/authStore";
 import { Button } from "../../shared/ui/Button";
-import { useUsers } from "../../entities/user/model/useUsers";
+
 import { useNavigate } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 
 export const DashboardPage = () => {
   const { logout } = useAuthStore();

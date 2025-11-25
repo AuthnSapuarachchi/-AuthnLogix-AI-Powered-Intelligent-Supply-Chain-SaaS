@@ -11,20 +11,20 @@ export const api = axios.create({
 });
 
 // Optional: Add an interceptor to log errors (Professional Debugging)
-api.interceptors.request.use(
+api.interceptors.response.use(
   (config) => {
     // 1. Grab token from Zustand Store (Accessing state outside a component!)
     const token = useAuthStore.getState().token;
+   
 
     // 2. If token exists, attach it to headers
     if (token) {
-      // Ensure headers object exists and set Authorization header
-      if (!config.headers) config.headers = {};
-      (config.headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
-
-      console.log("✅ Authorization Header Set");
+      // ✅ NEW WAY (The Fix)
+      config.headers.set('Authorization', `Bearer ${token}`);
+      
+      console.log("✅ Authorization Header Set via .set()");
     } else {
-      console.warn("⚠️ Request sent without token!");
+        console.warn("⚠️ Request sent without token!");
     }
     return config;
   },

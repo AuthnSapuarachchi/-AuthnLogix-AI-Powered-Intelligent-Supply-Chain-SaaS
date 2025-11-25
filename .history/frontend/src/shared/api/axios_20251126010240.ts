@@ -10,7 +10,7 @@ export const api = axios.create({
   },
 });
 
-// Optional: Add an interceptor to log errors (Professional Debugging)
+// Request Interceptor: "The Token Injector"
 api.interceptors.request.use(
   (config) => {
     // 1. Grab token from Zustand Store (Accessing state outside a component!)
@@ -18,13 +18,7 @@ api.interceptors.request.use(
 
     // 2. If token exists, attach it to headers
     if (token) {
-      // Ensure headers object exists and set Authorization header
-      if (!config.headers) config.headers = {};
-      (config.headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
-
-      console.log("✅ Authorization Header Set");
-    } else {
-      console.warn("⚠️ Request sent without token!");
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },

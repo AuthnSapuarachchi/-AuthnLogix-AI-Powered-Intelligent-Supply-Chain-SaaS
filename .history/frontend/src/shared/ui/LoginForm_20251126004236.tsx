@@ -5,7 +5,7 @@ import * as z from "zod";
 import { loginUser } from "../../features/auth/api/authApi";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
-import { useAuthStore } from "../../entities/session/model/authStore";
+import { useAuthStore } from "../../entities/users/model/authStore";
 import { useNavigate } from "react-router-dom";
 
 // 1. Define the Validation Schema (Rules)
@@ -46,7 +46,7 @@ export const LoginForm = () => {
       // 2. Redirect to Dashboard
       console.log("Redirecting to dashboard...");
       navigate("/dashboard");
-    } catch {
+    } catch (error) {
       setApiError("Invalid email or password");
     } finally {
       setIsLoading(false);
