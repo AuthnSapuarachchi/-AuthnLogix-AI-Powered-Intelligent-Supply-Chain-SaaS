@@ -11,9 +11,3 @@ export const createShipment = async (data: CreateShipmentPayload): Promise<Shipm
   return response.data;
 };
 
-export const trackShipmentPublic = async (id: string) => {
-  // Note: No Authorization header needed for this one!
-  // But our interceptor adds it if it exists. That's fine.
-  const response = await api.get(`/public/tracking/${id}`);
-  return response.data;
-};
