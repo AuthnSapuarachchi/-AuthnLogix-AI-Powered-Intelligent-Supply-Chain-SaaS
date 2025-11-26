@@ -14,11 +14,12 @@ It features a **Hexagonal Architecture** backend and a **Feature-Sliced Design (
 
 ## ⚡ Key Features
 
-* **🔐 Stateless Security:** Enterprise-grade Authentication using **JWT** (JSON Web Tokens) and **BCrypt** password hashing.
-* **📡 Real-Time Events:** WebSocket (STOMP) integration updates inventory dashboards instantly across all connected clients without polling.
-* **🏭 Multi-Warehouse Logic:** Intelligent capacity validation prevents overstocking; manages relationships between warehouses and products.
-* **🛡️ Role-Based Access:** Secure API endpoints protected by Spring Security filter chains.
-* **🐳 Production DevOps:** Fully Dockerized environment with **Nginx Reverse Proxy** handling CORS and static assets.
+* **🔐 Advanced RBAC:** Multi-role security (Admin, Manager, Driver) with Method-Level protection (`@PreAuthorize`) and conditional UI rendering.
+* **📊 Data Intelligence:** Interactive Analytics Dashboard using **Recharts** and custom JPQL Aggregation queries to track inventory value and distribution.
+* **🚚 Transactional Logistics:** "Shipment Manager" module handling atomic stock deductions and order tracking to ensure data integrity.
+* **📡 Real-Time Synchronization:** WebSocket (STOMP) broadcasts ensure all connected clients see inventory updates instantly without reloading.
+* **🛡️ Stateless Security:** Enterprise-grade Authentication using **JWT** and **BCrypt**.
+* **🐳 Production DevOps:** Fully Dockerized environment with **Nginx Reverse Proxy** and Multi-Stage builds.
 
 ---
 
@@ -110,6 +111,7 @@ npm run dev
 
 
 Access the frontend at [http://localhost:5173](http://localhost:5173)
+
 
 
 
