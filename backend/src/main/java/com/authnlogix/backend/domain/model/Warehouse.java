@@ -20,6 +20,9 @@ public class Warehouse extends BaseEntity{
     @Column(nullable = false)
     private String location; // e.g., "Colombo 03"
 
+    private Double latitude;
+    private Double longitude;
+
     @Column(nullable = false)
     private Integer capacity; // e.g., 10000
 
