@@ -6,6 +6,7 @@ import com.authnlogix.backend.domain.model.Warehouse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class WarehouseController {
     private final WarehouseService warehouseService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')") // <--- ONLY ADMINS CAN PASS
     public ResponseEntity<Warehouse> createWarehouse(@RequestBody @Valid WarehouseRequest request) {
         return ResponseEntity.ok(warehouseService.createWarehouse(request));
     }
