@@ -8,7 +8,6 @@ import { WarehousePage } from "./pages/warehouse/WarehousePage";
 import { ProductPage } from "./pages/product/ProductPage";
 import { ShipmentPage } from "./pages/shipment/ShipmentPage";
 import { AuditPage } from "./pages/audit/AuditPage";
-import { PublicTrackingPage } from "./pages/tracking/PublicTrackingPage";
 
 // 1. Create a Guard Wrapper
 // If user is NOT logged in, kick them back to Login page
@@ -30,7 +29,7 @@ function App() {
             </div>
           }
         />
-        <Route path="/track" element={<PublicTrackingPage />} />
+        
 
         {/* Protected Route */}
         <Route

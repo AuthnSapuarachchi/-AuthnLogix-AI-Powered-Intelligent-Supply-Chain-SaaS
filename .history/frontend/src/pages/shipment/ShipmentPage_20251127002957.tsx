@@ -98,9 +98,11 @@ export const ShipmentPage = () => {
                             <span className="text-white font-medium">
                               {s.product?.name || "Unknown"}
                             </span>
-                            <span className="text-xs text-gray-500 mt-0.5">
-                              Tracking ID: {s.id}
-                            </span>
+                            {s.product?.id && (
+                              <span className="text-xs text-gray-500 mt-0.5">
+                                ID: {s.product.id}
+                              </span>
+                            )}
                           </div>
                         </td>
                         <td className="px-4 py-3">{s.destination}</td>

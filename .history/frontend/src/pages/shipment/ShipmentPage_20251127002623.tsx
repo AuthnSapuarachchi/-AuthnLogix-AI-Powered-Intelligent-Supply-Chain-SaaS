@@ -93,15 +93,9 @@ export const ShipmentPage = () => {
                   <tbody className="divide-y divide-gray-800">
                     {shipments?.map((s) => (
                       <tr key={s.id} className="hover:bg-gray-800/50">
-                        <td className="px-4 py-3">
-                          <div className="flex flex-col">
-                            <span className="text-white font-medium">
-                              {s.product?.name || "Unknown"}
-                            </span>
-                            <span className="text-xs text-gray-500 mt-0.5">
-                              Tracking ID: {s.id}
-                            </span>
-                          </div>
+                        <td className="px-4 py-3 text-white">
+                          {s.product?.name || "Unknown"}
+                          {s.product?.
                         </td>
                         <td className="px-4 py-3">{s.destination}</td>
                         <td className="px-4 py-3 text-right font-mono text-yellow-500">
