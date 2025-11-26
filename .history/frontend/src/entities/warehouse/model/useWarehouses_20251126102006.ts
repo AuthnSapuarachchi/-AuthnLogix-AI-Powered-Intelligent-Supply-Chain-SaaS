@@ -1,0 +1,29 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createWarehouse, fetchWarehouses } from "../api/warehouseApi";
+import { CreateWarehousePayload } from "./types";
+
+// 1. Hook to Get All Warehouses
+export const useWarehouses = () => {
+  return useQuery({
+    queryKey: ['warehouses'],
+    queryFn: fetchWarehouses,
+  });
+};
+
+// 2. Hook to Create a Warehouse
+export const useCreateWarehouse = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateWarehousePayload) => createWarehouse(data),
+    onSuccess: () => {
+      // 🪄 MAGIC: This tells React Query "The list is old. Refetch it!"
+      // The UI will update automatically without us touching the state.
+      queryClient.invalidateQueries({ queryKey: ['warehouses'] });
+      alert("Warehouse Created Successfully!");
+    },
+    onError: (error: any) => {
+      alert("Failed to create warehouse: " + (error.response?.data?.message || "Unknown error"));
+    }
+  });
+};
