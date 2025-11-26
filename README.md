@@ -52,30 +52,67 @@ graph LR
 
 ## Category and Technologies
 
-### Backend
-- Java 17
-- Spring Boot 3
-- Spring Security
-- Hibernate (JPA)
-- WebSocket
+| Category | Technologies                                      |
+|----------|-------------------------------------------------|
+| Backend  | Java 17, Spring Boot 3, Spring Security, Hibernate (JPA), WebSocket |
+| Frontend | React 18, TypeScript, Vite, Tailwind CSS, Zustand, React Query, React Hook Form |
+| Database | PostgreSQL 15, Redis 7 (Caching)                 |
+| DevOps   | Docker Compose, Nginx (Alpine), Multi-stage Builds |
 
-### Frontend
-- React 18
-- TypeScript
-- Vite
-- Tailwind CSS
-- Zustand
-- React Query
-- React Hook Form
 
-### Database
-- PostgreSQL 15
-- Redis 7 (Caching)
+---
+## 🚀 Getting Started
 
-### DevOps
-- Docker Compose
-- Nginx (Alpine)
-- Multi-stage Builds
+### Prerequisites
+
+- Docker Desktop installed and running.
+- Git.
+
+### Option 1: Run in Production Mode (Recommended)
+
+This simulates a real AWS/Cloud deployment using Nginx.
+
+1. Clone the repository:
+   git clone [https://github.com/YOUR_USERNAME/authnlogix-saas.git](https://github.com/YOUR_USERNAME/authnlogix-saas.git)
+cd authnlogix-saas
+
+2. Build and start containers:
+   docker-compose -f docker-compose.prod.yml up --build -d
+
+
+3. Access the app:
+
+Open your browser and go to [http://localhost](http://localhost) (Runs on Port 80)
+
+**Admin Login:**
+- Email: alice.secure@example.com
+- Password: mySecretPassword
+
+---
+
+### Option 2: Run in Development Mode
+
+If you want to edit code with hot-reloading.
+
+1. Start Infrastructure (DB & Redis):
+    docker-compose up -d
+
+
+2. Start Backend:
+- Open backend in IntelliJ IDEA/Eclipse.
+- Run `BackendApplication.java`.
+
+3. Start Frontend:
+
+cd frontend
+npm install
+npm run dev
+
+
+Access the frontend at [http://localhost:5173](http://localhost:5173)
+
+
+
 
 
 
