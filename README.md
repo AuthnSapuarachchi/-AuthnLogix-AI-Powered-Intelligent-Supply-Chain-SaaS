@@ -47,7 +47,8 @@ graph LR
     Nginx -- Static --> React[React Files]
     Backend -- Port 5432 --> DB[(PostgreSQL)]
     Backend -- Port 6379 --> Redis[(Redis Cache)]
-
+```
+---
 
 ## Category and Technologies
 
@@ -75,6 +76,7 @@ graph LR
 - Docker Compose
 - Nginx (Alpine)
 - Multi-stage Builds
+
 
 
 
