@@ -48,3 +48,10 @@ graph LR
     Backend -- Port 5432 --> DB[(PostgreSQL)]
     Backend -- Port 6379 --> Redis[(Redis Cache)]
 
+###Category,Technologies
+Backend,"Java 17, Spring Boot 3, Spring Security, Hibernate (JPA), WebSocket"
+Frontend,"React 18, TypeScript, Vite, Tailwind CSS, Zustand, React Query, React Hook Form"
+Database,"PostgreSQL 15, Redis 7 (Caching)"
+DevOps,"Docker Compose, Nginx (Alpine), Multi-stage Builds"
+
+
