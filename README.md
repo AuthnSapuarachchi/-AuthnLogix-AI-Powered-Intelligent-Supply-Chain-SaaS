@@ -73,7 +73,7 @@ graph LR
 This simulates a real AWS/Cloud deployment using Nginx.
 
 1. Clone the repository:
-   git clone [https://github.com/YOUR_USERNAME/authnlogix-saas.git](https://github.com/YOUR_USERNAME/authnlogix-saas.git)
+   git clone [https://github.com/YOUR_USERNAME/authnlogix-saas.git]((https://github.com/AuthnSapuarachchi/-AuthnLogix-AI-Powered-Intelligent-Supply-Chain-SaaS.git))
 cd authnlogix-saas
 
 2. Build and start containers:
@@ -110,6 +110,7 @@ npm run dev
 
 
 Access the frontend at [http://localhost:5173](http://localhost:5173)
+
 
 
 
