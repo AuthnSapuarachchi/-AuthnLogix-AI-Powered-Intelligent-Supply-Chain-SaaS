@@ -26,6 +26,8 @@ public class WarehouseService {
                 .name(request.getName())
                 .location(request.getLocation())
                 .capacity(request.getCapacity())
+                .latitude(request.getLatitude())
+                .longitude(request.getLongitude())
                 .build();
 
         return warehouseRepository.save(warehouse);
