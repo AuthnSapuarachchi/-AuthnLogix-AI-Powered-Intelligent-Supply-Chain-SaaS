@@ -189,8 +189,8 @@ export const DashboardPage = () => {
               </div>
             )}
           </div>
+          
         </div>
-        <Button onClick={() => navigate("/subscribe")}>Upgrade Plan</Button>
       </div>
     </div>
   );

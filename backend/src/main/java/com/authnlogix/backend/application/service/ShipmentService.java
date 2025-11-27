@@ -6,7 +6,9 @@ import com.authnlogix.backend.domain.model.Shipment;
 import com.authnlogix.backend.domain.model.ShipmentStatus;
 import com.authnlogix.backend.infrastructure.adapter.output.ProductRepository;
 import com.authnlogix.backend.infrastructure.adapter.output.ShipmentRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,24 +21,26 @@ public class ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
     private final ProductRepository productRepository;
+    private final SimpMessagingTemplate messagingTemplate;
+    private final EmailService emailService;
 
-    @Transactional // <--- CRITICAL: Starts a Database Transaction
-    public Shipment createShipment(ShipmentRequest request) {
+    @Transactional
+    public Shipment createShipment(ShipmentRequest request) throws MessagingException {
 
-        // 1. Find the Product
+        // 1. Find Product
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        // 2. Validate Stock (Business Logic)
+        // 2. Validate Stock
         if (product.getQuantity() < request.getQuantity()) {
             throw new RuntimeException("Insufficient Stock! Available: " + product.getQuantity());
         }
 
-        // 3. Deduct Stock (The "Action")
+        // 3. Deduct Stock & Save (ONLY ONCE)
         product.setQuantity(product.getQuantity() - request.getQuantity());
-        productRepository.save(product); // Save the new quantity
+        productRepository.save(product);
 
-        // 4. Create Shipment Record
+        // 4. Create Shipment
         Shipment shipment = Shipment.builder()
                 .product(product)
                 .quantity(request.getQuantity())
@@ -45,11 +49,31 @@ public class ShipmentService {
                 .shipmentDate(LocalDateTime.now())
                 .build();
 
-        return shipmentRepository.save(shipment);
+        Shipment savedShipment = shipmentRepository.save(shipment);
+
+        // 5. Notifications
+        messagingTemplate.convertAndSend("/topic/inventory", "REFRESH_NEEDED");
+
+        emailService.sendShipmentNotification(
+                "manager@authnlogix.com",
+                product.getName(),
+                request.getQuantity(),
+                request.getDestination()
+        );
+
+        // 6. Check for Low Stock (After deduction)
+        if (product.getQuantity() < 10) {
+            emailService.sendLowStockAlert(
+                    "admin@authnlogix.com",
+                    product.getName(),
+                    product.getQuantity()
+            );
+        }
+
+        return savedShipment;
     }
 
     public List<Shipment> getAllShipments() {
         return shipmentRepository.findAll();
     }
-
 }
