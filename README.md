@@ -20,6 +20,8 @@ It features a **Hexagonal Architecture** backend and a **Feature-Sliced Design (
 * **📡 Real-Time Synchronization:** WebSocket (STOMP) broadcasts ensure all connected clients see inventory updates instantly without reloading.
 * **🛡️ Stateless Security:** Enterprise-grade Authentication using **JWT** and **BCrypt**.
 * **🐳 Production DevOps:** Fully Dockerized environment with **Nginx Reverse Proxy** and Multi-Stage builds.
+* * **💳 SaaS Monetization:** Integrated **Stripe Payment Gateway** for subscription management, handling secure Payment Intents and client-side confirmation.
+* **📧 Automated Notifications:** Asynchronous email system using **Spring Mail** for critical alerts (Low Stock) and transactional updates (Shipment Created).
 
 ---
 
@@ -111,6 +113,7 @@ npm run dev
 
 
 Access the frontend at [http://localhost:5173](http://localhost:5173)
+
 
 
 
