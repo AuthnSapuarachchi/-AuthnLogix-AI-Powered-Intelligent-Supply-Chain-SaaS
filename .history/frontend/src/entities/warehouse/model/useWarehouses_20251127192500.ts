@@ -29,14 +29,3 @@ export const useCreateWarehouse = () => {
     }
   });
 };
-
-export const useDeleteWarehouse = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (id: string) => api.delete(`/warehouses/${id}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['warehouses'] });
-      toast.success("Warehouse Archived");
-    }
-  });
-};

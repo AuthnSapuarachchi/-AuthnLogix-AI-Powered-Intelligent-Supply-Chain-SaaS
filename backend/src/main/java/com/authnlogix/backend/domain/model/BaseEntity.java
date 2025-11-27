@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,6 +14,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @MappedSuperclass
+@SQLDelete(sql = "UPDATE products SET active = false WHERE id = ?")
+@Where(clause = "active = true")
 public abstract class BaseEntity {
 
     @Id
@@ -25,5 +29,8 @@ public abstract class BaseEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false)
+    private boolean active = true;
 
 }

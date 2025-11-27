@@ -10,7 +10,6 @@ import { Button } from "../../shared/ui/Button";
 import { Input } from "../../shared/ui/Input";
 import { Loader2, Truck, FileText } from "lucide-react";
 import { api } from "../../shared/api/axios";
-import { toast } from "sonner";
 
 export const ShipmentPage = () => {
   const navigate = useNavigate();
@@ -52,11 +51,11 @@ export const ShipmentPage = () => {
       link.href = url;
       link.setAttribute("download", `invoice_${id}.pdf`);
       document.body.appendChild(link);
-      toast.success("Invoice downloaded successfully");
       link.click();
       link.remove();
     } catch (e) {
-      toast.error("Failed to download invoice");
+      alert("Failed to download invoice");
+      
     }
   };
 

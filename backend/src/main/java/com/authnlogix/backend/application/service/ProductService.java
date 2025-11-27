@@ -10,7 +10,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -59,6 +61,20 @@ public class ProductService {
         messagingTemplate.convertAndSend("/topic/inventory", "REFRESH_NEEDED");
 
         return savedProduct;
+    }
+
+    @Transactional
+    public Product updateProductDetails(UUID id, String newName, BigDecimal newPrice) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        // Only update allowed fields
+        product.setName(newName);
+        product.setPrice(newPrice);
+
+        // Note: We DO NOT update 'quantity' here. That must happen via Shipments/Procurement logic.
+
+        return productRepository.save(product);
     }
 
     public List<Product> getAllProducts() {

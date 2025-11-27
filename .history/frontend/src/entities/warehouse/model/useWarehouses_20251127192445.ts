@@ -24,19 +24,7 @@ export const useCreateWarehouse = () => {
       toast.success("Warehouse Created Successfully!");
     },
     onError: (error: any) => {
-      const msg = error.response?.data?.message || "Failed to create warehouse";
-      toast.error(msg);
-    }
-  });
-};
-
-export const useDeleteWarehouse = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (id: string) => api.delete(`/warehouses/${id}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['warehouses'] });
-      toast.success("Warehouse Archived");
+      alert("Failed to create warehouse: " + (error.response?.data?.message || "Unknown error"));
     }
   });
 };

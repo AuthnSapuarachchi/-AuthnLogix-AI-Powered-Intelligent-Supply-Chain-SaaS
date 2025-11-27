@@ -23,7 +23,7 @@ export const useCreateShipment = () => {
     },
     onError: (error: any) => {
       const msg = error.response?.data?.message || "Transaction Failed";
-      toast.error(msg);
+      alert("Error: " + msg);
     }
   });
 };

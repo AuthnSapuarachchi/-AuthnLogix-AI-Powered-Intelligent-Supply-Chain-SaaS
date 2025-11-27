@@ -52,10 +52,10 @@ export const ShipmentPage = () => {
       link.href = url;
       link.setAttribute("download", `invoice_${id}.pdf`);
       document.body.appendChild(link);
-      toast.success("Invoice downloaded successfully");
       link.click();
       link.remove();
     } catch (e) {
+      alert("Failed to download invoice");
       toast.error("Failed to download invoice");
     }
   };
