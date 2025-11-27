@@ -61,15 +61,6 @@ services:
     networks:
       - authn-network
   
-  # 4. The Email Server (Fake SMTP)
-  maildev:
-    image: maildev/maildev
-    container_name: authnlogix-maildev
-    ports:
-      - "1080:1080" # The Web UI (Inbox)
-      - "1025:1025" # The SMTP Port (Backend talks to this)
-    networks:
-      - authn-network
 
 # Define the volumes
 volumes:

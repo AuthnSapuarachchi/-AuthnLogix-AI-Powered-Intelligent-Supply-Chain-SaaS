@@ -3,6 +3,7 @@ package com.authnlogix.backend.infrastructure.adapter.input;
 import com.authnlogix.backend.application.dto.ShipmentRequest;
 import com.authnlogix.backend.application.service.ShipmentService;
 import com.authnlogix.backend.domain.model.Shipment;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ShipmentController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')") // <--- Drivers are excluded
-    public ResponseEntity<Shipment> createShipment(@RequestBody @Valid ShipmentRequest request) {
+    public ResponseEntity<Shipment> createShipment(@RequestBody @Valid ShipmentRequest request) throws MessagingException {
         return ResponseEntity.ok(shipmentService.createShipment(request));
     }
 
