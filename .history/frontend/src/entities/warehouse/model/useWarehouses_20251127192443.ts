@@ -21,11 +21,10 @@ export const useCreateWarehouse = () => {
       // 🪄 MAGIC: This tells React Query "The list is old. Refetch it!"
       // The UI will update automatically without us touching the state.
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
-      toast.success("Warehouse Created Successfully!");
+      toast
     },
     onError: (error: any) => {
-      const msg = error.response?.data?.message || "Failed to create warehouse";
-      toast.error(msg);
+      alert("Failed to create warehouse: " + (error.response?.data?.message || "Unknown error"));
     }
   });
 };

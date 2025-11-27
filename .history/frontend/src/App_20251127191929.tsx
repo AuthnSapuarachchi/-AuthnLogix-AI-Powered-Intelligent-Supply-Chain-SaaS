@@ -22,7 +22,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-right" richColors />
+    
       <Routes>
         {/* Public Route */}
         <Route

@@ -19,11 +19,11 @@ export const useCreateShipment = () => {
       queryClient.invalidateQueries({ queryKey: ['shipments'] });
       // CRITICAL: We must also refresh Products because stock decreased!
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      toast.success("Shipment Created Successfully!");
+      toast
     },
     onError: (error: any) => {
       const msg = error.response?.data?.message || "Transaction Failed";
-      toast.error(msg);
+      alert("Error: " + msg);
     }
   });
 };

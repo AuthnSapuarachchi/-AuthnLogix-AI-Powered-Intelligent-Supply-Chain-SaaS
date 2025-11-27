@@ -24,8 +24,7 @@ export const useCreateWarehouse = () => {
       toast.success("Warehouse Created Successfully!");
     },
     onError: (error: any) => {
-      const msg = error.response?.data?.message || "Failed to create warehouse";
-      toast.error(msg);
+      
     }
   });
 };
