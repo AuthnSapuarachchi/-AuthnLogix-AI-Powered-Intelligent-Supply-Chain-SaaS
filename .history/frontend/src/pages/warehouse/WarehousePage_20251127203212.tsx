@@ -100,7 +100,7 @@ export const WarehousePage = () => {
                       <th className="px-4 py-3">Name</th>
                       <th className="px-4 py-3">Location</th>
                       <th className="px-4 py-3 text-right">Capacity</th>
-                      <th className="px-4 py-3 text-right">Actions</th>
+                      
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">

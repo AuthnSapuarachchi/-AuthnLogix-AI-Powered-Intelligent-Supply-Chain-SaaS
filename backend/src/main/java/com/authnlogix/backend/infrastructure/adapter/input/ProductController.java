@@ -6,9 +6,11 @@ import com.authnlogix.backend.domain.model.Product;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -27,4 +29,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public ResponseEntity<Product> updateProduct(@PathVariable UUID id, @RequestBody ProductRequest request) {
+        return ResponseEntity.ok(productService.updateProductDetails(id, request.getName(), request.getPrice()));
+    }
 }

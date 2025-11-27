@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/warehouses")
@@ -27,6 +28,13 @@ public class WarehouseController {
     @GetMapping
     public ResponseEntity<List<Warehouse>> getAllWarehouses() {
         return ResponseEntity.ok(warehouseService.getAllWarehouses());
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')") // Critical: Only Admins can delete
+    public ResponseEntity<Void> deleteWarehouse(@PathVariable UUID id) {
+        warehouseService.deleteWarehouse(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

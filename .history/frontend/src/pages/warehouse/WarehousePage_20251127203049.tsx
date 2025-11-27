@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react";
 import { useAuthStore } from "../../entities/session/model/authStore";
 import { WarehouseMap } from "../../widgets/map/WarehouseMap";
 import { Trash2, Edit } from "lucide-react";
-import { useDeleteWarehouse } from "../../entities/warehouse/model/useWarehouses";
+import us
 
 export const WarehousePage = () => {
   const navigate = useNavigate();
@@ -100,7 +100,6 @@ export const WarehousePage = () => {
                       <th className="px-4 py-3">Name</th>
                       <th className="px-4 py-3">Location</th>
                       <th className="px-4 py-3 text-right">Capacity</th>
-                      <th className="px-4 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
@@ -110,30 +109,6 @@ export const WarehousePage = () => {
                         <td className="px-4 py-3">{wh.location}</td>
                         <td className="px-4 py-3 text-right font-mono text-blue-400">
                           {wh.capacity.toLocaleString()}
-                        </td>
-                        <td className="px-4 py-3 text-right flex justify-end gap-2">
-                          {/* Edit Button */}
-                          <button className="text-blue-400 hover:text-blue-300">
-                            <Edit size={16} />
-                          </button>
-
-                          {/* Delete Button (Only for Admin) */}
-                          {userRole === "ADMIN" && (
-                            <button
-                              onClick={() => {
-                                if (
-                                  confirm(
-                                    "Are you sure? This will archive the warehouse."
-                                  )
-                                ) {
-                                  deleteWarehouse(wh.id);
-                                }
-                              }}
-                              className="text-red-400 hover:text-red-300"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          )}
                         </td>
                       </tr>
                     ))}

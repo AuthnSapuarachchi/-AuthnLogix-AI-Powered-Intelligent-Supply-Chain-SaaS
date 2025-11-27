@@ -11,7 +11,6 @@ import { Loader2 } from "lucide-react";
 import { useAuthStore } from "../../entities/session/model/authStore";
 import { WarehouseMap } from "../../widgets/map/WarehouseMap";
 import { Trash2, Edit } from "lucide-react";
-import { useDeleteWarehouse } from "../../entities/warehouse/model/useWarehouses";
 
 export const WarehousePage = () => {
   const navigate = useNavigate();
@@ -19,7 +18,6 @@ export const WarehousePage = () => {
   // 1. React Query Hooks
   const { data: warehouses, isLoading } = useWarehouses();
   const { mutate: createWarehouse, isPending } = useCreateWarehouse();
-  const { mutate: deleteWarehouse } = useDeleteWarehouse();
 
   // Get user role from auth store
   const userRole = useAuthStore((state) => state.role);
@@ -32,6 +30,8 @@ export const WarehousePage = () => {
     setValue("latitude", lat);
     setValue("longitude", lng);
   };
+
+  
 
   // 2. Form Setup
   const {
@@ -100,7 +100,6 @@ export const WarehousePage = () => {
                       <th className="px-4 py-3">Name</th>
                       <th className="px-4 py-3">Location</th>
                       <th className="px-4 py-3 text-right">Capacity</th>
-                      <th className="px-4 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
@@ -110,30 +109,6 @@ export const WarehousePage = () => {
                         <td className="px-4 py-3">{wh.location}</td>
                         <td className="px-4 py-3 text-right font-mono text-blue-400">
                           {wh.capacity.toLocaleString()}
-                        </td>
-                        <td className="px-4 py-3 text-right flex justify-end gap-2">
-                          {/* Edit Button */}
-                          <button className="text-blue-400 hover:text-blue-300">
-                            <Edit size={16} />
-                          </button>
-
-                          {/* Delete Button (Only for Admin) */}
-                          {userRole === "ADMIN" && (
-                            <button
-                              onClick={() => {
-                                if (
-                                  confirm(
-                                    "Are you sure? This will archive the warehouse."
-                                  )
-                                ) {
-                                  deleteWarehouse(wh.id);
-                                }
-                              }}
-                              className="text-red-400 hover:text-red-300"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          )}
                         </td>
                       </tr>
                     ))}

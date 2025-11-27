@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createWarehouse, fetchWarehouses } from "../api/warehouseApi";
+import { createWarehouse, fetchWarehouses, deleteWarehouse } from "../api/warehouseApi";
 import type { CreateWarehousePayload } from "./types";
 import { toast } from "sonner";
 
@@ -33,7 +33,7 @@ export const useCreateWarehouse = () => {
 export const useDeleteWarehouse = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/warehouses/${id}`),
+    mutationFn: (id: string) => deleteWarehouse(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
       toast.success("Warehouse Archived");

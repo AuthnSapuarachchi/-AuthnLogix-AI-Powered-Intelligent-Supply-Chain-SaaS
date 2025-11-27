@@ -3,10 +3,12 @@ package com.authnlogix.backend.application.service;
 import com.authnlogix.backend.application.dto.WarehouseRequest;
 import com.authnlogix.backend.domain.model.Warehouse;
 import com.authnlogix.backend.infrastructure.adapter.output.WarehouseRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,24 @@ public class WarehouseService {
     // 2. Read Logic
     public List<Warehouse> getAllWarehouses() {
         return warehouseRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteWarehouse(UUID id) {
+        Warehouse warehouse = warehouseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
+
+        // Business Logic: Can we delete a warehouse with stock?
+        // Option A: Block it
+        if (!warehouse.getProducts().isEmpty()) {
+            throw new RuntimeException("Cannot delete warehouse with active products. Empty it first.");
+        }
+
+        // Option B: Soft Delete (Archive it)
+        warehouse.setActive(false);
+        warehouseRepository.save(warehouse);
+
+        // Audit Log (If you enabled AOP for delete methods)
     }
 
 }
