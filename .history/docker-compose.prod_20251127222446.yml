@@ -44,7 +44,6 @@ services:
       SPRING_MAIL_PORT: 1025
     depends_on:
       - postgres
-      - maildev
     networks:
       - prod-network
 
