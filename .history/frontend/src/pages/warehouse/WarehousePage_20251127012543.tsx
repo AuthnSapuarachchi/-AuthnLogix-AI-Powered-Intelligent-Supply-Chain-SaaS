@@ -35,7 +35,7 @@ export const WarehousePage = () => {
     register,
     handleSubmit,
     reset,
-    setValue,
+    
     formState: { errors },
   } = useForm<CreateWarehousePayload>();
 

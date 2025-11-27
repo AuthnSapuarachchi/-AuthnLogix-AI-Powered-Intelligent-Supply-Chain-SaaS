@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  # 1. Database (Standard Official Image)
+  postgres:
+    image: postgres:15-alpine
+    container_name: prod-db
+    environment:
+      POSTGRES_USER: authnuser
+      POSTGRES_PASSWORD: authnpassword
+      POSTGRES_DB: authnlogix_db
+    volumes:
+      - prod_postgres_data:/var/lib/postgresql/data
+    networks:
+      - prod-network
+
+    
+
+  # 2. Redis (Standard Official Image)
+  redis:
+    image: redis:7-alpine
+    container_name: prod-redis
+    networks:
+      - prod-network
+
+  # 3. Backend (Pulls from YOUR Docker Hub)
+  authnlogix-backend:
+    image: authnbroo/authnlogix-backend:v1.0  # <--- YOUR CLOUD IMAGE
+    container_name: prod-backend
+    environment:
+      # In production, we talk to the service name 'postgres', not localhost
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/authnlogix_db
+      SPRING_DATASOURCE_USERNAME: authnuser
+      SPRING_DATASOURCE_PASSWORD: authnpassword
+    depends_on:
+      - postgres
+    networks:
+      - prod-network
+
+  # 4. Frontend (Pulls from YOUR Docker Hub)
+  authnlogix-frontend:
+    image: authnbroo/authnlogix-frontend:v1.0 # <--- YOUR CLOUD IMAGE
+    container_name: prod-frontend
+    ports:
+      - "80:80" # The only port open to the world
+    depends_on:
+      - authnlogix-backend
+    networks:
+      - prod-network
+
+volumes:
+  prod_postgres_data:
+
+networks:
+  prod-network:
+    driver: bridge
