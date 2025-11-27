@@ -35,15 +35,12 @@ export const useDeleteWarehouse = () => {
   return useMutation({
     mutationFn: (id: string) => deleteWarehouse(id),
     onSuccess: () => {
-      // Force refetch the warehouses list
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
-      queryClient.refetchQueries({ queryKey: ['warehouses'] });
       toast.success("Warehouse Archived Successfully!");
     },
     onError: (error: any) => {
       const msg = error.response?.data?.message || "Failed to archive warehouse";
       toast.error(msg);
-      console.error("Delete warehouse error:", error);
     }
   });
 };

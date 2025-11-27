@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createWarehouse, fetchWarehouses, deleteWarehouse } from "../api/warehouseApi";
+import { createWarehouse, fetchWarehouses } from "../api/warehouseApi";
 import type { CreateWarehousePayload } from "./types";
 import { toast } from "sonner";
+import { api } from "../../../shared/api/axios";
 
 // 1. Hook to Get All Warehouses
 export const useWarehouses = () => {
@@ -33,17 +34,10 @@ export const useCreateWarehouse = () => {
 export const useDeleteWarehouse = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteWarehouse(id),
+    mutationFn: (id: string) => api.delete(`/warehouses/${id}`),
     onSuccess: () => {
-      // Force refetch the warehouses list
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
-      queryClient.refetchQueries({ queryKey: ['warehouses'] });
-      toast.success("Warehouse Archived Successfully!");
-    },
-    onError: (error: any) => {
-      const msg = error.response?.data?.message || "Failed to archive warehouse";
-      toast.error(msg);
-      console.error("Delete warehouse error:", error);
+      toast.success("Warehouse Archived");
     }
   });
 };
