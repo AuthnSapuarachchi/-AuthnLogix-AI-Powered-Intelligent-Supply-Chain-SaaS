@@ -21,7 +21,7 @@ export const useCreateProduct = () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       // We also might want to refetch warehouses to see updated capacity? 
       // For now, let's just refresh products.
-      toast.success("Product Created Successfully!");
+      toast
     },
     onError: (error: any) => {
       // Use the backend error message (e.g., "Warehouse capacity exceeded!")
