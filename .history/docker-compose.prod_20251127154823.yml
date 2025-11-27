@@ -56,16 +56,6 @@ services:
     networks:
       - prod-network
 
-  # 4. The Email Server (Fake SMTP)
-  maildev:
-    image: maildev/maildev
-    container_name: authnlogix-maildev
-    ports:
-      - "1080:1080" # The Web UI (Inbox)
-      - "1025:1025" # The SMTP Port (Backend talks to this)
-    networks:
-      - prod-network
-
 volumes:
   prod_postgres_data:
 

@@ -64,7 +64,7 @@ services:
       - "1080:1080" # The Web UI (Inbox)
       - "1025:1025" # The SMTP Port (Backend talks to this)
     networks:
-      - prod-network
+      - authn-network
 
 volumes:
   prod_postgres_data:

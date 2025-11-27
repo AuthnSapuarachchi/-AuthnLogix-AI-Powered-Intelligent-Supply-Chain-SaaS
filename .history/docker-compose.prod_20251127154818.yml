@@ -47,22 +47,12 @@ services:
 
   # 4. Frontend (Pulls from YOUR Docker Hub)
   authnlogix-frontend:
-    image: authnbroo/authnlogix-frontend:v2.0 # <--- YOUR CLOUD IMAGE
+    image: authnbroo/authnlogix-frontend:v1.0 # <--- YOUR CLOUD IMAGE
     container_name: prod-frontend
     ports:
       - "80:80" # The only port open to the world
     depends_on:
       - authnlogix-backend
-    networks:
-      - prod-network
-
-  # 4. The Email Server (Fake SMTP)
-  maildev:
-    image: maildev/maildev
-    container_name: authnlogix-maildev
-    ports:
-      - "1080:1080" # The Web UI (Inbox)
-      - "1025:1025" # The SMTP Port (Backend talks to this)
     networks:
       - prod-network
 
