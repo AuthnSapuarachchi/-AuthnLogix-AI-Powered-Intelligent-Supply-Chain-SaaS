@@ -51,6 +51,83 @@ graph LR
     Backend -- Port 5432 --> DB[(PostgreSQL)]
     Backend -- Port 6379 --> Redis[(Redis Cache)]
 ```
+```mermaid
+graph TD
+    %% Nodes
+    User((👤 User / Client))
+    
+    subgraph "Docker Production Host (AWS/Local)"
+        Nginx[("🦁 Nginx Gateway<br/>(Port 80)")]
+        
+        subgraph "Private Network"
+            Frontend[("⚛️ React Frontend<br/>(Static Files)")]
+            Backend[("☕ Spring Boot API<br/>(Port 8080)")]
+            DB[("🐘 PostgreSQL<br/>(Port 5432)")]
+            Redis[("🔴 Redis Cache<br/>(Port 6379)")]
+            Mail[("kg MailDev<br/>(SMTP)")]
+        end
+    end
+
+    External_Stripe[("💳 Stripe API")]
+    External_Maps[("🌍 OpenStreetMap")]
+
+    %% Connections
+    User -- "HTTPS / WSS" --> Nginx
+    
+    Nginx -- "Serve Static Assets" --> Frontend
+    Nginx -- "Proxy /api & /ws" --> Backend
+    
+    Backend -- "Read/Write Data" --> DB
+    Backend -- "Cache/Session" --> Redis
+    Backend -- "Send Async Emails" --> Mail
+    
+    Backend -- "Payment Intents" --> External_Stripe
+    Frontend -- "Fetch Tiles" --> External_Maps
+    Frontend -- "WebSocket Events" <--> Backend
+
+    %% Styling
+    classDef plain fill:#fff,stroke:#333,stroke-width:2px;
+    classDef db fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
+    classDef ext fill:#fff3e0,stroke:#ef6c00,stroke-width:2px;
+    
+    class User,Nginx,Frontend,Backend plain
+    class DB,Redis,Mail db
+    class External_Stripe,External_Maps ext
+```
+```mermaid
+graph LR
+    subgraph "Infrastructure Layer (Outside World)"
+        Controller["🎮 REST Controllers<br/>(Input Adapter)"]
+        Socket["ws WebSocket Controller<br/>(Input Adapter)"]
+        Repo["floppy_disk Repositories<br/>(Output Adapter)"]
+        Email["✉️ Email Service<br/>(Output Adapter)"]
+    end
+
+    subgraph "Application Layer (The Logic)"
+        Service["⚙️ Services<br/>(Shipment, Inventory)"]
+        DTO["📦 DTOs<br/>(Request/Response)"]
+    end
+
+    subgraph "Domain Layer (The Core)"
+        Entity["💎 Entities<br/>(Product, User, Warehouse)"]
+    end
+
+    %% Flows
+    Controller --> Service
+    Socket --> Service
+    
+    Service --> Entity
+    Service --> Repo
+    Service --> Email
+    
+    Repo --> Entity
+    
+    style Domain Layer fill:#d1fae5,stroke:#059669,stroke-width:2px
+    style Application Layer fill:#dbeafe,stroke:#2563eb,stroke-width:2px
+
+```
+
+
 ---
 
 ## Category and Technologies
@@ -113,6 +190,7 @@ npm run dev
 
 
 Access the frontend at [http://localhost:5173](http://localhost:5173)
+
 
 
 
