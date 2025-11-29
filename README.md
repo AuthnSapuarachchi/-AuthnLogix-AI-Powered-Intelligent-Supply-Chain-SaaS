@@ -134,7 +134,7 @@ graph LR
 
 | Category | Technologies                                      |
 |----------|-------------------------------------------------|
-| Backend  | Java 17, Spring Boot 3, Spring Security, Hibernate (JPA), WebSocket |
+| Backend  | Java 21, Spring Boot 3, Spring Security, Hibernate (JPA), WebSocket |
 | Frontend | React 18, TypeScript, Vite, Tailwind CSS, Zustand, React Query, React Hook Form |
 | Database | PostgreSQL 15, Redis 7 (Caching)                 |
 | DevOps   | Docker Compose, Nginx (Alpine), Multi-stage Builds |
@@ -190,6 +190,7 @@ npm run dev
 
 
 Access the frontend at [http://localhost:5173](http://localhost:5173)
+
 
 
 
