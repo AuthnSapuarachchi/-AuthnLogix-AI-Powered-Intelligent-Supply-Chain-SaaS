@@ -3,6 +3,7 @@ package com.authnlogix.backend.domain.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.envers.Audited;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited // <--- Add this
 @SQLRestriction("active = true")
 public class Warehouse extends BaseEntity{
 

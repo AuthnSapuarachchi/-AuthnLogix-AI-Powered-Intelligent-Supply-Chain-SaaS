@@ -34,4 +34,5 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@PathVariable UUID id, @RequestBody ProductRequest request) {
         return ResponseEntity.ok(productService.updateProductDetails(id, request.getName(), request.getPrice()));
     }
+
 }

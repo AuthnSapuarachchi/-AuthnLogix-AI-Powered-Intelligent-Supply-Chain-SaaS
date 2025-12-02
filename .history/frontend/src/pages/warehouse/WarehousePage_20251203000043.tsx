@@ -6,10 +6,7 @@ import {
   useWarehouses,
   useUpdateWarehouse,
 } from "../../entities/warehouse/model/useWarehouses";
-import type {
-  CreateWarehousePayload,
-  Warehouse,
-} from "../../entities/warehouse/model/types";
+import type { CreateWarehousePayload, Warehouse } from "../../entities/warehouse/model/types";
 import { Button } from "../../shared/ui/Button";
 import { Input } from "../../shared/ui/Input";
 import { Loader2 } from "lucide-react";
@@ -25,8 +22,7 @@ export const WarehousePage = () => {
   const { data: warehouses, isLoading } = useWarehouses();
   const { mutate: createWarehouse, isPending } = useCreateWarehouse();
   const { mutate: deleteWarehouse } = useDeleteWarehouse();
-  const { mutate: updateWarehouse, isPending: isUpdating } =
-    useUpdateWarehouse();
+  const { mutate: updateWarehouse, isPending: isUpdating } = useUpdateWarehouse();
 
   // State for editing
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -282,7 +278,7 @@ export const WarehousePage = () => {
                     className="flex-1"
                     isLoading={isPending || isUpdating}
                   >
-                    {editingId ? "Update" : "Create Warehouse"}
+                    {editingId ? "Update Warehouse" : "Create Warehouse"}
                   </Button>
                 </div>
               </form>

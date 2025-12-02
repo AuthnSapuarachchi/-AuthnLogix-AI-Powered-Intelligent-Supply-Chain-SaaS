@@ -58,4 +58,19 @@ public class WarehouseService {
         // Audit Log (If you enabled AOP for delete methods)
     }
 
+    @Transactional
+    public Warehouse updateWarehouse(java.util.UUID id, WarehouseRequest request) {
+        Warehouse warehouse = warehouseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
+
+        warehouse.setName(request.getName());
+        warehouse.setLocation(request.getLocation());
+        warehouse.setCapacity(request.getCapacity());
+
+        // Note: We don't update Latitude/Longitude here for simplicity,
+        // but you could add that if you want.
+
+        return warehouseRepository.save(warehouse);
+    }
+
 }

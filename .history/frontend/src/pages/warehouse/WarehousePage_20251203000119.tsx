@@ -282,7 +282,7 @@ export const WarehousePage = () => {
                     className="flex-1"
                     isLoading={isPending || isUpdating}
                   >
-                    {editingId ? "Update" : "Create Warehouse"}
+                    {editingId ? "Update Warehouse" : "Create Warehouse"}
                   </Button>
                 </div>
               </form>

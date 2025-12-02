@@ -34,15 +34,11 @@ export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: { id: string; payload: CreateProductPayload }) => 
-      updateProduct(data.id, data.payload),
+      axios.put(`/products/${data.id}`, data.payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      queryClient.refetchQueries({ queryKey: ['products'] });
-      toast.success("Product Updated Successfully!");
+      toast.success("Product Updated");
     },
-    onError: (error: any) => {
-      const msg = error.response?.data?.message || "Failed to update product";
-      toast.error(msg);
-    }
+    onError: () => toast.error("Failed to update")
   });
 };

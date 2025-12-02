@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createWarehouse, fetchWarehouses, deleteWarehouse, updateWarehouse } from "../api/warehouseApi";
+import { createWarehouse, fetchWarehouses, deleteWarehouse } from "../api/warehouseApi";
 import type { CreateWarehousePayload } from "./types";
 import { toast } from "sonner";
 
@@ -44,22 +44,6 @@ export const useDeleteWarehouse = () => {
       const msg = error.response?.data?.message || "Failed to archive warehouse";
       toast.error(msg);
       console.error("Delete warehouse error:", error);
-    }
-  });
-};
-
-export const useUpdateWarehouse = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: CreateWarehousePayload }) => updateWarehouse(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['warehouses'] });
-      queryClient.refetchQueries({ queryKey: ['warehouses'] });
-      toast.success("Warehouse Updated Successfully!");
-    },
-    onError: (error: any) => {
-      const msg = error.response?.data?.message || "Failed to update warehouse";
-      toast.error(msg);
     }
   });
 };

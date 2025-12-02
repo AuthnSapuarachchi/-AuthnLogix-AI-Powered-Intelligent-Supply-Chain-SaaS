@@ -66,7 +66,7 @@ export const ProductPage = () => {
     if (editingId) {
       // Update existing product
       updateProduct(
-        { id: editingId, payload: payload },
+        { id: editingId, data: payload },
         {
           onSuccess: () => {
             setEditingId(null);
@@ -135,15 +135,6 @@ export const ProductPage = () => {
                             title="View QR Code"
                           >
                             <QrCode size={18} />
-                          </button>
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          <button
-                            onClick={() => handleEdit(p)}
-                            className="text-blue-400 hover:text-blue-300 transition-colors inline-flex"
-                            title="Edit Product"
-                          >
-                            <Edit size={16} />
                           </button>
                         </td>
                       </tr>

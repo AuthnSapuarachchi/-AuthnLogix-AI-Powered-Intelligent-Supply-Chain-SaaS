@@ -81,4 +81,19 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    @Transactional
+    public Product updateProduct(java.util.UUID id, ProductRequest request) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(request.getName());
+        product.setSku(request.getSku());
+        product.setPrice(request.getPrice());
+
+        // ⚠️ CRITICAL: We DO NOT update quantity here.
+        // Quantity is only changed by Shipments (Stock Reduction) or Procurement (Stock Addition).
+
+        return productRepository.save(product);
+    }
+
 }

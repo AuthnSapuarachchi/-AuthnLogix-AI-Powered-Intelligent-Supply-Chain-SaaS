@@ -1,15 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import {
   useCreateWarehouse,
   useWarehouses,
-  useUpdateWarehouse,
 } from "../../entities/warehouse/model/useWarehouses";
-import type {
-  CreateWarehousePayload,
-  Warehouse,
-} from "../../entities/warehouse/model/types";
+import type { CreateWarehousePayload } from "../../entities/warehouse/model/types";
 import { Button } from "../../shared/ui/Button";
 import { Input } from "../../shared/ui/Input";
 import { Loader2 } from "lucide-react";
@@ -17,6 +12,7 @@ import { useAuthStore } from "../../entities/session/model/authStore";
 import { WarehouseMap } from "../../widgets/map/WarehouseMap";
 import { Trash2, Edit } from "lucide-react";
 import { useDeleteWarehouse } from "../../entities/warehouse/model/useWarehouses";
+import { useState } from "react";
 
 export const WarehousePage = () => {
   const navigate = useNavigate();
@@ -25,10 +21,7 @@ export const WarehousePage = () => {
   const { data: warehouses, isLoading } = useWarehouses();
   const { mutate: createWarehouse, isPending } = useCreateWarehouse();
   const { mutate: deleteWarehouse } = useDeleteWarehouse();
-  const { mutate: updateWarehouse, isPending: isUpdating } =
-    useUpdateWarehouse();
 
-  // State for editing
   const [editingId, setEditingId] = useState<string | null>(null);
 
   // Get user role from auth store
@@ -52,48 +45,42 @@ export const WarehousePage = () => {
     formState: { errors },
   } = useForm<CreateWarehousePayload>();
 
-  // Handle edit button click
-  const handleEdit = (warehouse: Warehouse) => {
-    setEditingId(warehouse.id);
-    setValue("name", warehouse.name);
-    setValue("location", warehouse.location);
-    setValue("capacity", warehouse.capacity);
-    setValue("latitude", warehouse.latitude);
-    setValue("longitude", warehouse.longitude);
+  // Function to load data into form
+  const handleEditClick = (wh: Warehouse) => {
+    setEditingId(wh.id);
+    setValue("name", wh.name);
+    setValue("location", wh.location);
+    setValue("capacity", wh.capacity);
+    setValue("latitude", wh.latitude);
+    setValue("longitude", wh.longitude);
   };
 
-  // Handle cancel edit
-  const handleCancelEdit = () => {
+  const handleCancel = () => {
     setEditingId(null);
     reset();
   };
 
   const onSubmit = (data: CreateWarehousePayload) => {
-    const payload = {
-      ...data,
-      capacity: Number(data.capacity),
-      latitude: Number(data.latitude),
-      longitude: Number(data.longitude),
-    };
+    // Send data to backend. We parse capacity as Number because HTML inputs return strings.
+    createWarehouse(
+      {
+        ...data,
+        capacity: Number(data.capacity),
+        latitude: Number(data.latitude),
+        longitude: Number(data.longitude),
+      }:
 
-    if (editingId) {
-      // Update existing warehouse
-      updateWarehouse(
-        { id: editingId, data: payload },
-        {
-          onSuccess: () => {
-            setEditingId(null);
-            reset();
-          },
-        }
-      );
+      if (editingId) {
+        // UPDATE MODE
+        updateWarehouse({ id: editingId, payload }, {
+            onSuccess: () => handleCancel()
+        });
     } else {
-      // Create new warehouse
-      createWarehouse(payload, {
-        onSuccess: () => reset(),
-      });
-    }
-  };
+        // CREATE MODE
+        createWarehouse(payload, {
+            onSuccess: () => reset()
+        });
+    };
 
   return (
     <div className="min-h-screen bg-gray-950 text-white p-8">
@@ -150,15 +137,10 @@ export const WarehousePage = () => {
                           {wh.capacity.toLocaleString()}
                         </td>
                         <td className="px-4 py-3 text-right flex justify-end gap-2">
-                          {/* Edit Button (Only for Admin) */}
-                          {userRole === "ADMIN" && (
-                            <button
-                              onClick={() => handleEdit(wh)}
-                              className="text-blue-400 hover:text-blue-300"
-                            >
-                              <Edit size={16} />
-                            </button>
-                          )}
+                          {/* Edit Button */}
+                          <button className="text-blue-400 hover:text-blue-300">
+                            <Edit size={16} />
+                          </button>
 
                           {/* Delete Button (Only for Admin) */}
                           {userRole === "ADMIN" && (
@@ -194,9 +176,7 @@ export const WarehousePage = () => {
           {/* RIGHT: Create Form - Only visible for ADMIN */}
           {isAdmin && (
             <div className="bg-gray-900 rounded-xl border border-gray-800 p-6 h-fit">
-              <h2 className="text-xl font-semibold mb-4">
-                {editingId ? "Update Warehouse" : "Add New Warehouse"}
-              </h2>
+              <h2 className="text-xl font-semibold mb-4">Add New Warehouse</h2>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <Input
                   label="Warehouse Name"
@@ -266,25 +246,9 @@ export const WarehousePage = () => {
                   </button>
                 </div>
 
-                <div className="flex gap-2">
-                  {editingId && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={handleCancelEdit}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                  )}
-                  <Button
-                    type="submit"
-                    className="flex-1"
-                    isLoading={isPending || isUpdating}
-                  >
-                    {editingId ? "Update" : "Create Warehouse"}
-                  </Button>
-                </div>
+                <Button type="submit" className="w-full" isLoading={isPending}>
+                  Create Warehouse
+                </Button>
               </form>
             </div>
           )}

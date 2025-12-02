@@ -37,4 +37,10 @@ public class WarehouseController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Warehouse> updateWarehouse(@PathVariable java.util.UUID id, @RequestBody @Valid WarehouseRequest request) {
+        return ResponseEntity.ok(warehouseService.updateWarehouse(id, request));
+    }
+
 }

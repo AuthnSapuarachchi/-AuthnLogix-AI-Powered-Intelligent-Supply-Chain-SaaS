@@ -66,7 +66,7 @@ export const ProductPage = () => {
     if (editingId) {
       // Update existing product
       updateProduct(
-        { id: editingId, payload: payload },
+        { id: editingId, data: payload },
         {
           onSuccess: () => {
             setEditingId(null);

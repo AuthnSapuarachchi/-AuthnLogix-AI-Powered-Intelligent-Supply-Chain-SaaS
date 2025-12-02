@@ -6,10 +6,7 @@ import {
   useUpdateProduct,
 } from "../../entities/product/model/useProducts";
 import { useWarehouses } from "../../entities/warehouse/model/useWarehouses"; // Reuse this hook!
-import type {
-  CreateProductPayload,
-  Product,
-} from "../../entities/product/model/types";
+import type { CreateProductPayload, Product } from "../../entities/product/model/types";
 import { Button } from "../../shared/ui/Button";
 import { Input } from "../../shared/ui/Input";
 import { Loader2, QrCode, X, Edit } from "lucide-react";
@@ -66,7 +63,7 @@ export const ProductPage = () => {
     if (editingId) {
       // Update existing product
       updateProduct(
-        { id: editingId, payload: payload },
+        { id: editingId, data: payload },
         {
           onSuccess: () => {
             setEditingId(null);
@@ -112,7 +109,6 @@ export const ProductPage = () => {
                       <th className="px-4 py-3 text-right">Price ($)</th>
                       <th className="px-4 py-3 text-right">Qty</th>
                       <th className="px-4 py-3 text-center">QR</th>
-                      <th className="px-4 py-3 text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
@@ -135,15 +131,6 @@ export const ProductPage = () => {
                             title="View QR Code"
                           >
                             <QrCode size={18} />
-                          </button>
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          <button
-                            onClick={() => handleEdit(p)}
-                            className="text-blue-400 hover:text-blue-300 transition-colors inline-flex"
-                            title="Edit Product"
-                          >
-                            <Edit size={16} />
                           </button>
                         </td>
                       </tr>
