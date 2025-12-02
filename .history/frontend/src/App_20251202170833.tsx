@@ -10,9 +10,7 @@ import { ShipmentPage } from "./pages/shipment/ShipmentPage";
 import { AuditPage } from "./pages/audit/AuditPage";
 import { PublicTrackingPage } from "./pages/tracking/PublicTrackingPage";
 import { SubscriptionPage } from "./pages/subscription/SubscriptionPage";
-import { UsersPage } from "./pages/users/UsersPage";
-import { ForgotPasswordPage } from "./pages/auth/ForgotPasswordPage";
-import { ResetPasswordPage } from "./pages/auth/ResetPasswordPage";
+import 
 import { Toaster } from "sonner";
 
 // 1. Create a Guard Wrapper
@@ -36,8 +34,6 @@ function App() {
             </div>
           }
         />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/track" element={<PublicTrackingPage />} />
 
         {/* Protected Route */}

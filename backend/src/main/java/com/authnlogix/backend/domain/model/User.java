@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,7 +35,17 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    @Builder.Default
     private Boolean isActive = true;
+
+    @Builder.Default
+    private int failedAttempts = 0;
+
+    private LocalDateTime lockTime; // When were they locked?
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean accountNonLocked = true;
 
 
     @Override
@@ -52,12 +63,13 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isAccountNonLocked() { return accountNonLocked; }
 
     @Override
     public boolean isCredentialsNonExpired() { return true; }
 
     @Override
     public boolean isEnabled() { return isActive; }
+
 
 }

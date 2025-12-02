@@ -11,8 +11,7 @@ import { AuditPage } from "./pages/audit/AuditPage";
 import { PublicTrackingPage } from "./pages/tracking/PublicTrackingPage";
 import { SubscriptionPage } from "./pages/subscription/SubscriptionPage";
 import { UsersPage } from "./pages/users/UsersPage";
-import { ForgotPasswordPage } from "./pages/auth/ForgotPasswordPage";
-import { ResetPasswordPage } from "./pages/auth/ResetPasswordPage";
+
 import { Toaster } from "sonner";
 
 // 1. Create a Guard Wrapper

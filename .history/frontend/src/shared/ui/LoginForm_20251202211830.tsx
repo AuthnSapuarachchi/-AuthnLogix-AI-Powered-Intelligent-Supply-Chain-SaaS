@@ -90,13 +90,13 @@ export const LoginForm = () => {
           Sign In
         </Button>
         <div className="flex justify-end">
-          <button
-            type="button"
-            onClick={() => navigate("/forgot-password")}
-            className="text-sm text-blue-400 hover:text-blue-300 hover:underline"
-          >
-            Forgot Password?
-          </button>
+            <button 
+                type="button"
+                onClick={() => navigate("/forgot-password")}
+                className="text-sm text-blue-400 hover:text-blue-300 hover:underline"
+            >
+                Forgot Password?
+            </button>
         </div>
       </form>
     </div>
