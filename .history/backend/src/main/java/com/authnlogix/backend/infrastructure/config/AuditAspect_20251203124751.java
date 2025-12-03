@@ -49,8 +49,7 @@ public class AuditAspect {
         }
     }
 
-    // Listen to update methods (updateWarehouse, updateProduct,
-    // updateProductDetails, etc.)
+    // Listen to update methods (updateWarehouse, updateProduct, updateProductDetails, etc.)
     @AfterReturning(pointcut = "execution(* com.authnlogix.backend.application.service.*.update*(..))", returning = "result")
     public void logUpdate(JoinPoint joinPoint, Object result) {
         try {
@@ -61,37 +60,6 @@ public class AuditAspect {
             String methodName = joinPoint.getSignature().getName();
 
             // 3. Convert method name to readable action (updateProduct -> UPDATE_PRODUCT)
-            String action = camelToSnake(methodName).toUpperCase();
-
-            // 4. Save Log
-            AuditLog log = AuditLog.builder()
-                    .action(action)
-                    .performedBy(currentUser)
-                    .timestamp(LocalDateTime.now())
-                    .details("Successfully executed " + methodName)
-                    .build();
-
-            auditLogRepository.save(log);
-            System.out.println("📝 Audit Logged: " + action + " by " + currentUser);
-
-        } catch (Exception e) {
-            // Don't crash the app if logging fails
-            System.err.println("Failed to write audit log: " + e.getMessage());
-        }
-    }
-
-    // Listen to delete methods (deleteWarehouse, deleteProduct, etc.)
-    @AfterReturning(pointcut = "execution(* com.authnlogix.backend.application.service.*.delete*(..))", returning = "result")
-    public void logDelete(JoinPoint joinPoint, Object result) {
-        try {
-            // 1. Get current user
-            String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-
-            // 2. Get method name (e.g., deleteWarehouse)
-            String methodName = joinPoint.getSignature().getName();
-
-            // 3. Convert method name to readable action (deleteWarehouse ->
-            // DELETE_WAREHOUSE)
             String action = camelToSnake(methodName).toUpperCase();
 
             // 4. Save Log

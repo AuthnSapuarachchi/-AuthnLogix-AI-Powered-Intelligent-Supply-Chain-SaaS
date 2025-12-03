@@ -49,8 +49,7 @@ public class AuditAspect {
         }
     }
 
-    // Listen to update methods (updateWarehouse, updateProduct,
-    // updateProductDetails, etc.)
+    // Listen to update methods (updateWarehouse, updateProduct, updateProductDetails, etc.)
     @AfterReturning(pointcut = "execution(* com.authnlogix.backend.application.service.*.update*(..))", returning = "result")
     public void logUpdate(JoinPoint joinPoint, Object result) {
         try {
@@ -90,8 +89,7 @@ public class AuditAspect {
             // 2. Get method name (e.g., deleteWarehouse)
             String methodName = joinPoint.getSignature().getName();
 
-            // 3. Convert method name to readable action (deleteWarehouse ->
-            // DELETE_WAREHOUSE)
+            // 3. Convert method name to readable action (deleteWarehouse -> DELETE_WAREHOUSE)
             String action = camelToSnake(methodName).toUpperCase();
 
             // 4. Save Log
