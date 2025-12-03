@@ -72,8 +72,7 @@ public class ProductService {
         product.setName(newName);
         product.setPrice(newPrice);
 
-        // Note: We DO NOT update 'quantity' here. That must happen via
-        // Shipments/Procurement logic.
+        // Note: We DO NOT update 'quantity' here. That must happen via Shipments/Procurement logic.
 
         return productRepository.save(product);
     }
@@ -100,10 +99,10 @@ public class ProductService {
         product.setQuantity(request.getQuantity());
 
         Product savedProduct = productRepository.save(product);
-
+        
         // Notify WebSocket clients about the update
         messagingTemplate.convertAndSend("/topic/inventory", "REFRESH_NEEDED");
-
+        
         return savedProduct;
     }
 

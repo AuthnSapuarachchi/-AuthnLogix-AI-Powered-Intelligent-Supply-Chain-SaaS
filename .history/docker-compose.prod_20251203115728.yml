@@ -50,7 +50,7 @@ services:
 
   # 4. Frontend (Pulls from YOUR Docker Hub)
   authnlogix-frontend:
-    image: authnbroo/authnlogix-frontend:v3.2 # <--- YOUR CLOUD IMAGE
+    image: authnbroo/authnlogix-frontend:v3.1 # <--- YOUR CLOUD IMAGE
     container_name: prod-frontend
     ports:
       - "80:80" # The only port open to the world
