@@ -1,0 +1,74 @@
+version: '3.8'
+services:
+  # 1. Database (Standard Official Image)
+  postgres:
+    image: postgres:15-alpine
+    container_name: prod-db
+    environment:
+      POSTGRES_USER: authnuser
+      POSTGRES_PASSWORD: authnpassword
+      POSTGRES_DB: authnlogix_db
+    volumes:
+      - prod_postgres_data:/var/lib/postgresql/data
+    networks:
+      - prod-network
+
+  pgadmin:
+    image: dpage/pgadmin4:7
+    container_name: prod-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@authnlogix.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres
+    networks:
+      - prod-network
+
+  # 2. Redis (Standard Official Image)
+  redis:
+    image: redis:7-alpine
+    container_name: prod-redis
+    networks:
+      - prod-network
+
+  # 3. Backend (Pulls from YOUR Docker Hub)
+  authnlogix-backend:
+    image: authnbroo/authnlogix-backend:v3.0  # <--- YOUR CLOUD IMAGE
+    container_name: prod-backend
+    environment:
+      # In production, we talk to the service name 'postgres', not localhost
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/authnlogix_db
+      SPRING_DATASOURCE_USERNAME: authnuser
+      SPRING_DATASOURCE_PASSWORD: authnpassword
+    depends_on:
+      - postgres
+    networks:
+      - prod-network
+
+  # 4. Frontend (Pulls from YOUR Docker Hub)
+  authnlogix-frontend:
+    image: authnbroo/authnlogix-frontend:v2.0 # <--- YOUR CLOUD IMAGE
+    container_name: prod-frontend
+    ports:
+      - "80:80" # The only port open to the world
+    depends_on:
+      - authnlogix-backend
+    networks:
+      - prod-network
+
+  # 4. The Email Server (Fake SMTP)
+  maildev:
+    image: maildev/maildev
+    container_name: authnlogix-maildev
+    ports:
+      - "1080:1080" # The Web UI (Inbox)
+      - "1025:1025" # The SMTP Port (Backend talks to this)
+    networks:
+      - prod-network
+
+volumes:
+  prod_postgres_data:
+
+networks:
+  prod-network:
+    driver: bridge

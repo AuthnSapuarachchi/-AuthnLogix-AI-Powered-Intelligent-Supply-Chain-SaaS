@@ -3,6 +3,9 @@ package com.authnlogix.backend.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.envers.Audited;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -12,6 +15,8 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited // <--- THIS IS THE MAGIC
+@SQLRestriction("active = true")
 public class Product extends BaseEntity {
 
     @Column(nullable = false)
