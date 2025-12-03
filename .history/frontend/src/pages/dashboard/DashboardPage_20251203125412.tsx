@@ -195,7 +195,7 @@ export const DashboardPage = () => {
           <Button
             variant="outline"
             onClick={() => navigate("/users")}
-            className="ml-2"
+            className="ml-"
           >
             Manage Employees
           </Button>

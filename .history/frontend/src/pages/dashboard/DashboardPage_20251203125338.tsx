@@ -192,11 +192,7 @@ export const DashboardPage = () => {
         </div>
         <Button onClick={() => navigate("/subscribe")}>Upgrade Plan</Button>
         {role === "ADMIN" && (
-          <Button
-            variant="outline"
-            onClick={() => navigate("/users")}
-            className="ml-2"
-          >
+          <Button variant="outline" onClick={() => navigate("/users")} className="">
             Manage Employees
           </Button>
         )}
