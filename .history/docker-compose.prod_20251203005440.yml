@@ -33,7 +33,7 @@ services:
 
   # 3. Backend (Pulls from YOUR Docker Hub)
   authnlogix-backend:
-    image: authnbroo/authnlogix-backend:v3.2  # <--- YOUR CLOUD IMAGE
+    image: authnbroo/authnlogix-backend:v3.1  # <--- YOUR CLOUD IMAGE
     container_name: prod-backend
     environment:
       # In production, we talk to the service name 'postgres', not localhost
@@ -50,7 +50,7 @@ services:
 
   # 4. Frontend (Pulls from YOUR Docker Hub)
   authnlogix-frontend:
-    image: authnbroo/authnlogix-frontend:v3.2 # <--- YOUR CLOUD IMAGE
+    image: authnbroo/authnlogix-frontend:v3.1 # <--- YOUR CLOUD IMAGE
     container_name: prod-frontend
     ports:
       - "80:80" # The only port open to the world
@@ -62,7 +62,7 @@ services:
   # 4. The Email Server (Fake SMTP)
   maildev:
     image: maildev/maildev
-    container_name: prod-maildev
+    container_name: authnlogix-maildev
     ports:
       - "1080:1080" # The Web UI (Inbox)
       - "1025:1025" # The SMTP Port (Backend talks to this)
