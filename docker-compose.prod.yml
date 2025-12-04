@@ -69,6 +69,33 @@ services:
     networks:
       - prod-network
 
+  # 5. Prometheus (The Database for Metrics)
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: prod-prometheus
+    ports:
+      - "9090:9090" # Expose for debugging
+    volumes:
+      # Mount the config file we just created
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - authnlogix-backend
+    networks:
+      - prod-network
+
+  # 6. Grafana (The Dashboard UI)
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: prod-grafana
+    ports:
+      - "3000:3000" # Expose UI to host
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin # Default password
+    depends_on:
+      - prometheus
+    networks:
+      - prod-network
+
 volumes:
   prod_postgres_data:
 
