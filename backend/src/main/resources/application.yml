@@ -35,6 +35,19 @@ spring:
 stripe:
   secret: sk_test_51SY0juHIrDOOZus5E00iGx3wPMxrSn7ZyuNawqRFFY2yQwDBEgRRkpw3qL34Zxl72AvDoKQP83NJcjVb36pe8V3f00iIrTugb1
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus" # Enable /actuator/prometheus
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 server:
   port: 8080

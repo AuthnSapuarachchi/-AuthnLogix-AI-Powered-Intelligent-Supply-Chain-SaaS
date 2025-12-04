@@ -70,6 +70,33 @@ services:
       - "1025:1025" # The SMTP Port (Backend talks to this)
     networks:
       - authn-network
+  
+  # 5. Prometheus (The Database for Metrics)
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: prod-prometheus
+    ports:
+      - "9090:9090" # Expose for debugging
+    volumes:
+      # Mount the config file we just created
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - authnlogix-backend
+    networks:
+      - authn-network
+
+  # 6. Grafana (The Dashboard UI)
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: prod-grafana
+    ports:
+      - "3000:3000" # Expose UI to host
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin # Default password
+    depends_on:
+      - prometheus
+    networks:
+      - authn-network
 
 # Define the volumes
 volumes:
