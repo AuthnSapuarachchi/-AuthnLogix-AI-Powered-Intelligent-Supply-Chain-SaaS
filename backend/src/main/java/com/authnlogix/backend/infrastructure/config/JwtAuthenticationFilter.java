@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -28,28 +29,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
 
-        // --- NEW SPY LOGS ---
-        System.out.println("\n--- INCOMING REQUEST ---");
-        System.out.println("URL: " + request.getRequestURI());
-        System.out.println("Method: " + request.getMethod()); // IS THIS 'GET' OR 'OPTIONS'?
+        // --- REQUEST LOGGING ---
+        log.debug("=== INCOMING REQUEST ===");
+        log.debug("URL: {}", request.getRequestURI());
+        log.debug("Method: {}", request.getMethod());
 
-        System.out.println("Headers:");
+        // Log all headers
         var headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String header = headerNames.nextElement();
-            System.out.println("   " + header + ": " + request.getHeader(header));
+            log.debug("{}: {}", header, request.getHeader(header));
         }
 
         // 1. Check if token exists
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("❌ No Bearer Token found in header"); // <--- Log missing token
+            log.debug("No Bearer Token found in Authorization header");
             filterChain.doFilter(request, response);
             return;
         }
@@ -58,29 +58,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7); // Remove "Bearer "
 
         // 3. Extract Email from Token
-        userEmail = jwtService.extractUsername(jwt);
-        System.out.println("✅ Token Found for User: " + userEmail); // <--- Log success
+        try {
+            userEmail = jwtService.extractUsername(jwt);
 
-        // 4. If user exists and is not already authenticated
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            // 5. Validate Token
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-
-                // 6. Update Security Context (Log the user in manually)
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            } else {
-                System.out.println("⛔ Token Invalid!"); // <--- Log invalid
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    log.debug("JWT Token validated for user: {}", userEmail);
+                }
             }
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            log.warn("JWT Token expired, proceeding anonymously");
+        } catch (Exception e) {
+            log.error("JWT Token validation error: {}", e.getMessage(), e);
         }
 
         // 7. Pass to next filter
