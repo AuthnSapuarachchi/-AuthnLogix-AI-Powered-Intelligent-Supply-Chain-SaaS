@@ -8,18 +8,17 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * Event published to RabbitMQ when a shipment is created
- * Used to trigger email notifications to managers
+ * Event published to RabbitMQ when product stock falls below threshold
+ * Used to trigger low stock alert emails to administrators
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShipmentCreatedEvent implements Serializable {
+public class LowStockEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String toEmail;
     private String productName;
-    private Integer quantity;
-    private String destination;
+    private Integer currentQuantity;
 }

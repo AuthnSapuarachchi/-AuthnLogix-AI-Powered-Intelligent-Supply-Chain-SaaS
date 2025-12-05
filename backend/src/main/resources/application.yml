@@ -23,6 +23,13 @@ spring:
           starttls:
             enable: false
 
+  # RabbitMQ Configuration
+  rabbitmq:
+    host: authnlogix-rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
   jpa:
     hibernate:
       ddl-auto: update # In production we use 'validate', for dev 'update' is okay.
@@ -36,6 +43,8 @@ stripe:
   secret: sk_test_51SY0juHIrDOOZus5E00iGx3wPMxrSn7ZyuNawqRFFY2yQwDBEgRRkpw3qL34Zxl72AvDoKQP83NJcjVb36pe8V3f00iIrTugb1
 
 management:
+  server:
+    port: 8081
   endpoints:
     web:
       exposure:

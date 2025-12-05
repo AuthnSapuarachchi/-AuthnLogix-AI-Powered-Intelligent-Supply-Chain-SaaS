@@ -97,6 +97,15 @@ services:
       - prometheus
     networks:
       - authn-network
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: authnlogix-rabbitmq
+    ports:
+      - "5672:5672"   # The App Port
+      - "15672:15672" # The Dashboard UI
+    networks:
+      - authn-network
 
 # Define the volumes
 volumes:

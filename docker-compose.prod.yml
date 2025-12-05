@@ -35,6 +35,9 @@ services:
   authnlogix-backend:
     image: authnbroo/authnlogix-backend:v3.2  # <--- YOUR CLOUD IMAGE
     container_name: prod-backend
+    expose:
+      - "8080" # Main App
+      - "8081" # Monitoring Side Door <--- ADD THIS
     environment:
       # In production, we talk to the service name 'postgres', not localhost
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/authnlogix_db
@@ -50,7 +53,7 @@ services:
 
   # 4. Frontend (Pulls from YOUR Docker Hub)
   authnlogix-frontend:
-    image: authnbroo/authnlogix-frontend:v3.2 # <--- YOUR CLOUD IMAGE
+    image: authnbroo/authnlogix-frontend:v3.3 # <--- YOUR CLOUD IMAGE
     container_name: prod-frontend
     ports:
       - "80:80" # The only port open to the world
@@ -93,6 +96,15 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin # Default password
     depends_on:
       - prometheus
+    networks:
+      - prod-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: authnlogix-rabbitmq
+    ports:
+      - "5672:5672"   # The App Port
+      - "15672:15672" # The Dashboard UI
     networks:
       - prod-network
 
