@@ -107,6 +107,31 @@ services:
     networks:
       - authn-network
 
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: prod-loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./logging/loki-config.yaml:/etc/loki/local-config.yaml
+    networks:
+      - authn-network
+
+  # 8. Promtail (Log Collector)
+  promtail:
+    image: grafana/promtail:2.9.0
+    container_name: prod-promtail
+    # 👇 1. ADD THIS COMMAND to force the config file usage
+    command: -config.file=/etc/promtail/config.yaml
+    volumes:
+      # 👇 2. Verify this mapping matches your folder structure
+      - ./logging/promtail-config.yaml:/etc/promtail/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - loki
+    networks:
+      - authn-network
+
 # Define the volumes
 volumes:
   postgres_data:

@@ -7,10 +7,13 @@ export const useInventorySocket = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    const socketUrl = import.meta.env.DEV 
+        ? 'http://localhost:8080/ws' 
+        : '/ws'; // Nginx will handle the proxy
     // 1. Create the Client
     const client = new Client({
       // We use SockJS factory because standard WS might be blocked by some firewalls
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      webSocketFactory: () => new SockJS(socketUrl),
       onConnect: () => {
         console.log("🟢 Connected to WebSocket");
 

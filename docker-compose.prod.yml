@@ -33,7 +33,7 @@ services:
 
   # 3. Backend (Pulls from YOUR Docker Hub)
   authnlogix-backend:
-    image: authnbroo/authnlogix-backend:v3.2  # <--- YOUR CLOUD IMAGE
+    image: authnbroo/authnlogix-backend:v4.0  # <--- YOUR CLOUD IMAGE
     container_name: prod-backend
     expose:
       - "8080" # Main App
@@ -53,7 +53,7 @@ services:
 
   # 4. Frontend (Pulls from YOUR Docker Hub)
   authnlogix-frontend:
-    image: authnbroo/authnlogix-frontend:v3.3 # <--- YOUR CLOUD IMAGE
+    image: authnbroo/authnlogix-frontend:v4.0 # <--- YOUR CLOUD IMAGE
     container_name: prod-frontend
     ports:
       - "80:80" # The only port open to the world
@@ -105,6 +105,31 @@ services:
     ports:
       - "5672:5672"   # The App Port
       - "15672:15672" # The Dashboard UI
+    networks:
+      - prod-network
+  
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: prod-loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./logging/loki-config.yaml:/etc/loki/local-config.yaml
+    networks:
+      - prod-network
+
+  # 8. Promtail (Log Collector)
+  promtail:
+    image: grafana/promtail:2.9.0
+    container_name: prod-promtail
+    # 👇 1. ADD THIS COMMAND to force the config file usage
+    command: -config.file=/etc/promtail/config.yaml
+    volumes:
+      # 👇 2. Verify this mapping matches your folder structure
+      - ./logging/promtail-config.yaml:/etc/promtail/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - loki
     networks:
       - prod-network
 

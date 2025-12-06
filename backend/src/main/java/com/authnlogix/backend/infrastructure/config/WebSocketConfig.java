@@ -23,7 +23,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // 3. Register the Endpoint that the Frontend will connect to
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:5173") // Allow React
+                .setAllowedOrigins("http://localhost:5173")
+                .setAllowedOriginPatterns("*")// Allow React
                 .withSockJS(); // Fallback option if WebSockets fail
     }
 
