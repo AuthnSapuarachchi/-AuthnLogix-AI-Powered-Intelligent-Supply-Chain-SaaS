@@ -165,8 +165,8 @@ cd authnlogix-saas
 Open your browser and go to [http://localhost](http://localhost) (Runs on Port 80)
 
 **Admin Login:**
-- Email: alice.secure@example.com
-- Password: mySecretPassword
+- Email: admin@authnlogix.com
+- Password: securePassword123
 
 ---
 
@@ -190,6 +190,7 @@ npm run dev
 
 
 Access the frontend at [http://localhost:5173](http://localhost:5173)
+
 
 
 
