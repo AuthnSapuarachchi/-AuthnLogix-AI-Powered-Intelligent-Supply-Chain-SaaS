@@ -1,0 +1,774 @@
+================================================================================
+PROJECT DATA COLLECTION FOR RESUME & LINKEDIN
+NexLogix - AI-Powered Intelligent Supply Chain SaaS
+================================================================================
+
+PROJECT OVERVIEW
+================================================================================
+Project Name: NexLogix (AuthnLogix)
+Type: Full-Stack Web Application / SaaS Platform
+Domain: Supply Chain Management & Inventory Management
+Status: Active Development
+Architecture: Microservices-ready, Containerized
+Git Repository: GitHub (dev-branch)
+
+================================================================================
+PROJECT DESCRIPTION (RAW)
+================================================================================
+- High-scale supply chain platform for intelligent inventory management
+- Real-time supply chain visibility and tracking
+- Multi-user platform with role-based access control
+- Enterprise-grade authentication and authorization
+- Automated warehouse and product management
+- Real-time notifications and event-driven architecture
+- Advanced metrics and monitoring capabilities
+- Email notification system for alerts and updates
+
+================================================================================
+BACKEND TECHNOLOGY STACK
+================================================================================
+Language & Framework:
+- Java 21 (Latest LTS version)
+- Spring Boot 3.5.8
+- Spring Framework 6.2.13
+
+Database & Data:
+- PostgreSQL 15 (Alpine)
+- Hibernate ORM with Envers (audit logging)
+- Spring Data JPA
+
+Authentication & Security:
+- Spring Security
+- JWT (JSON Web Tokens) - JJWT 0.11.5
+- Role-based Access Control (RBAC)
+- Password encryption and validation
+
+Messaging & Event-Driven:
+- RabbitMQ 3-Management (message broker)
+- Spring AMQP (Advanced Message Queuing Protocol)
+- Jackson2 JSON Message Converter
+- Asynchronous event publishing
+
+Email & Communication:
+- Spring Mail (SMTP)
+- MailDev (local SMTP server for development)
+- Email templates and notifications
+
+Monitoring & Observability:
+- Spring Actuator
+- Micrometer Prometheus Registry
+- Prometheus (metrics collection)
+- Grafana (dashboard visualization)
+- Loki (log aggregation)
+- Promtail (log collector)
+
+Real-Time Features:
+- WebSocket support
+- Spring WebSocket
+- STOMP protocol for message broker integration
+- SimpMessagingTemplate for real-time messaging
+
+Caching:
+- Redis 7 (Alpine) - for session and cache management
+
+Testing & Quality:
+- JUnit 5 (Jupiter)
+- Mockito (unit testing framework)
+- TestNG
+- Spring Boot Test
+
+Documentation:
+- SpringDoc OpenAPI (Swagger UI 2.3.0)
+- OpenAPI 3.0 specification
+
+Additional Libraries:
+- Lombok (reduce boilerplate code)
+- OpenPDF 1.3.30 (PDF generation)
+- Stripe 24.15.0 (payment integration)
+- Spring AOP (Aspect-Oriented Programming)
+
+Build Tool:
+- Maven 3.9.6 with Spring Boot parent 3.5.8
+
+================================================================================
+FRONTEND TECHNOLOGY STACK
+================================================================================
+Language & Framework:
+- React 18.2.0
+- TypeScript 5.2.2
+- Vite (build tool)
+- React Router DOM 6.22.3
+
+State Management:
+- Zustand 4.5.2
+- TanStack React Query 5.28.4
+
+Form Handling & Validation:
+- React Hook Form 7.51.1
+- Zod 3.22.4 (schema validation)
+- Hook Form Resolvers 3.3.4
+
+UI & Styling:
+- Tailwind CSS 3.4.1
+- Class Variance Authority 0.7.0
+- Clsx 2.1.0
+- Tailwind Merge 2.2.2
+- Lucide React (icon library) 0.363.0
+- Sonner 2.0.7 (toast notifications)
+
+Maps & Geolocation:
+- Leaflet 1.9.4
+- React Leaflet 4.2.1
+
+Real-Time Communication:
+- STOMP JS 7.2.1 (WebSocket over STOMP)
+- SockJS Client 1.6.1 (WebSocket fallback)
+
+Payment Integration:
+- Stripe React 5.4.1
+- Stripe JS 8.5.3
+
+Data Visualization:
+- Recharts 3.5.0
+
+QR Code:
+- React QR Code 2.0.18
+
+HTTP Client:
+- Axios 1.6.8
+
+Development Tools:
+- ESLint with React Hooks plugin
+- Autoprefixer 10.4.19
+- PostCSS 8.4.38
+
+Build Configuration:
+- Vite React Plugin 4.2.1
+- TypeScript compiler in strict mode
+
+================================================================================
+INFRASTRUCTURE & DEVOPS
+================================================================================
+Containerization:
+- Docker (multi-stage build process)
+- Docker Compose for orchestration
+- Alpine-based lightweight images
+
+Services Architecture:
+1. PostgreSQL 15-alpine (Database)
+2. PgAdmin 4 (Database GUI - port 5050)
+3. Redis 7-alpine (Caching layer - port 6379)
+4. Backend Service (Spring Boot - port 8080, 8081)
+5. Frontend Service (Nginx - port 80)
+6. MailDev (SMTP - port 1025, UI - port 1080)
+7. RabbitMQ 3-Management (Broker - port 5672, UI - port 15672)
+8. Prometheus (Metrics - port 9090)
+9. Grafana (Dashboard - port 3000)
+10. Loki (Log Aggregation - port 3100)
+11. Promtail (Log Collector)
+
+Network:
+- Custom Bridge Network (authn-network)
+- Inter-container communication
+- Service discovery via container names
+
+Database:
+- PostgreSQL with persistent volume
+- Volume mapping for data persistence
+- User authentication configured
+
+Backend Dockerfile:
+- Multi-stage build (Maven builder + Java runtime)
+- Maven 3.9.6 with Eclipse Temurin 21
+- Dependency caching optimization
+- Eclipse Temurin 21 JRE Alpine for runtime
+
+Frontend Build:
+- Node.js based build process
+- Vite bundling
+- Nginx reverse proxy serving
+
+Configuration:
+- Environment variables for service coordination
+- Service dependencies management
+- Port mapping and exposure
+- Volume mounting for configuration files
+
+================================================================================
+FEATURES IMPLEMENTED
+================================================================================
+
+Authentication & User Management:
+- User registration (sign up)
+- User login with JWT token generation
+- Password hashing and validation
+- Bearer token authentication
+- Role-based authorization filters
+- Session management
+
+Inventory Management:
+- Product CRUD operations (Create, Read, Update, Delete)
+- Stock quantity tracking
+- Product categorization
+- Real-time inventory updates
+- Low stock threshold alerts (< 10 units)
+- Inventory history and audit trail
+
+Warehouse Management:
+- Warehouse CRUD operations
+- Warehouse-product mapping
+- Storage location management
+- Warehouse status tracking
+- Warehouse capacity management
+
+Shipment Management:
+- Create shipments with product and quantity
+- Track shipment status (SHIPPED)
+- Automatic stock deduction on shipment
+- Shipment date tracking
+- Destination-based routing
+
+Event-Driven Architecture:
+- RabbitMQ message broker integration
+- Asynchronous event publishing
+- Topic exchange pattern
+- Routing key-based message routing
+- Event DTOs (ShipmentCreatedEvent, LowStockEvent)
+- Message persistence with durable queues
+
+Email Notifications:
+- Shipment notification emails
+- Low stock alert emails
+- Email templates (via Spring Mail)
+- SMTP configuration for both production and dev
+- Async email sending via RabbitMQ
+
+Real-Time Updates:
+- WebSocket integration
+- STOMP protocol support
+- Real-time inventory notifications
+- Live dashboard updates
+- Broadcast messaging to multiple clients
+
+Audit Logging:
+- Hibernate Envers integration
+- Full audit trail for all entities
+- Change tracking (CREATE, UPDATE, DELETE)
+- Timestamp tracking for all changes
+- User activity logging
+
+Admin Dashboard:
+- Real-time metrics and KPIs
+- Inventory overview
+- Shipment tracking
+- Warehouse management interface
+- User activity monitoring
+
+Monitoring & Observability:
+- Prometheus metrics collection
+- Grafana dashboards
+- Application health checks (actuator endpoints)
+- Custom metrics
+- Log aggregation via Loki
+- Promtail log collection from Docker containers
+
+Payment Integration:
+- Stripe integration (initialized)
+- Payment processing capabilities
+
+Documentation:
+- Swagger/OpenAPI documentation
+- API endpoint documentation
+- Interactive API testing interface
+
+================================================================================
+DATABASE SCHEMA & MODELS
+================================================================================
+Entities:
+- User (authentication, profile)
+- Role (authorization)
+- Product (inventory items)
+- Warehouse (storage locations)
+- Shipment (outbound logistics)
+- BaseEntity (common fields: id, createdAt, updatedAt)
+
+Relationships:
+- User has many Roles (many-to-many)
+- Warehouse has many Products
+- Shipment references Product
+- Audit trail for all entities
+
+Fields Tracked:
+- ID (Primary Key)
+- Created Timestamp
+- Updated Timestamp
+- Entity-specific business data
+- Audit change logs (Envers)
+
+================================================================================
+API ENDPOINTS (INFERRED)
+================================================================================
+
+Authentication:
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/refresh-token
+
+User Management:
+- GET /api/users
+- GET /api/users/{id}
+- PUT /api/users/{id}
+- DELETE /api/users/{id}
+
+Products:
+- GET /api/products
+- POST /api/products
+- GET /api/products/{id}
+- PUT /api/products/{id}
+- DELETE /api/products/{id}
+
+Warehouses:
+- GET /api/warehouses
+- POST /api/warehouses
+- GET /api/warehouses/{id}
+- PUT /api/warehouses/{id}
+- DELETE /api/warehouses/{id}
+
+Shipments:
+- GET /api/shipments
+- POST /api/shipments
+- GET /api/shipments/{id}
+
+WebSocket Endpoints:
+- /ws/connect (STOMP connection)
+- /app/shipment (broadcast shipment updates)
+- /topic/inventory (subscribe to inventory changes)
+
+Health & Metrics:
+- GET /actuator/health
+- GET /actuator/prometheus
+
+Swagger UI:
+- GET /swagger-ui.html
+- GET /v3/api-docs
+
+================================================================================
+PROJECT ACHIEVEMENTS & ACCOMPLISHMENTS
+================================================================================
+
+Architecture & Design:
+- Implemented layered architecture (controller-service-repository)
+- Clean separation of concerns (domain, application, infrastructure)
+- Event-driven architecture with asynchronous message processing
+- Microservices-ready design with independent deployable components
+- RESTful API design principles
+- Proper error handling and validation
+
+Code Quality:
+- Type-safe frontend with TypeScript
+- Strong typing throughout backend with Java generics
+- Lombok to reduce boilerplate code
+- Consistent naming conventions and code organization
+- Production-ready logging with SLF4J
+
+Security:
+- JWT-based authentication with Spring Security
+- Role-based access control (RBAC)
+- Password encryption and validation
+- Secure configuration management
+- Input validation and sanitization
+
+Real-Time Features:
+- WebSocket integration for live updates
+- STOMP protocol for reliable messaging
+- Real-time inventory notifications
+- Live dashboard updates
+- Asynchronous communication patterns
+
+Data Persistence & Auditing:
+- Comprehensive audit logging with Hibernate Envers
+- Full change tracking (CREATE, UPDATE, DELETE)
+- Timestamp tracking for all entities
+- Transaction management
+- Data integrity constraints
+
+Scalability & Performance:
+- Redis caching layer for improved performance
+- Connection pooling with HikariCP
+- Asynchronous message processing with RabbitMQ
+- Lazy loading and query optimization
+- Database indexing on frequently queried fields
+
+Observability & Monitoring:
+- Prometheus metrics integration
+- Grafana dashboard for visualization
+- Application health checks
+- Log aggregation with Loki
+- Docker container monitoring with Promtail
+
+DevOps & Deployment:
+- Containerized application with Docker
+- Multi-stage Docker builds for optimization
+- Docker Compose for local development
+- Environment-based configuration
+- Volume management for persistent data
+- Network isolation and security
+
+Testing:
+- Unit testing with JUnit 5 and Mockito
+- Test coverage for business logic
+- Integration test support
+
+Documentation:
+- OpenAPI/Swagger documentation
+- Technology decision records (ADR)
+- Architecture documentation
+- Code comments and Javadoc
+
+Integration:
+- Payment processing (Stripe)
+- Email notifications (SMTP)
+- Database management (PostgreSQL + PgAdmin)
+- Message broking (RabbitMQ)
+
+================================================================================
+DEVELOPMENT PROCESS & PRACTICES
+================================================================================
+
+Version Control:
+- Git-based workflow
+- dev-branch for development
+- Commit history tracking
+
+Bug Fixes & Improvements:
+- JWT authentication filter enhancements
+- Exception handling improvements
+- RabbitMQ connection management
+- Container networking optimization
+
+Production Readiness:
+- Proper logging instead of System.out
+- Error handling and recovery
+- Resource cleanup and management
+- Configuration management
+
+================================================================================
+KEY TECHNICAL CHALLENGES SOLVED
+================================================================================
+
+1. RabbitMQ Container Networking
+   - Issue: Backend couldn't connect to RabbitMQ container
+   - Solution: Configured container hostname (authnlogix-rabbitmq) instead of localhost
+   - Learning: Docker network DNS resolution for inter-container communication
+
+2. JWT Authentication in Filters
+   - Issue: JWT filter was throwing exceptions and blocking requests
+   - Solution: Added proper exception handling for expired tokens
+   - Learning: Filter chain execution order and exception propagation
+
+3. Asynchronous Email Processing
+   - Issue: Email sending was blocking shipment creation
+   - Solution: Implemented async messaging via RabbitMQ
+   - Learning: Event-driven architecture with message brokers
+
+4. Real-Time Inventory Updates
+   - Issue: Manual refresh required to see inventory changes
+   - Solution: WebSocket integration with STOMP protocol
+   - Learning: Broadcasting messages to multiple clients
+
+5. Audit Logging
+   - Issue: Need to track all changes to entities
+   - Solution: Integrated Hibernate Envers for automatic auditing
+   - Learning: JPA interceptors and audit trail patterns
+
+================================================================================
+PROJECT STRUCTURE & ORGANIZATION
+================================================================================
+
+Backend Structure:
+backend/
+├── src/main/java/com/authnlogix/backend/
+│   ├── application/
+│   │   ├── dto/ (Data Transfer Objects)
+│   │   └── service/ (Business Logic)
+│   ├── domain/
+│   │   ├── event/ (Domain Events)
+│   │   ├── exception/ (Custom Exceptions)
+│   │   ├── model/ (Entity Models)
+│   │   └── model/Role (Authorization)
+│   └── infrastructure/
+│       ├── adapter/
+│       │   ├── input/ (Controllers, Consumers)
+│       │   └── output/ (Repositories)
+│       ├── config/ (Spring Configuration)
+│       └── Dockerfile (Multi-stage build)
+├── pom.xml (Maven dependencies)
+└── src/main/resources/application.yml (Configuration)
+
+Frontend Structure:
+frontend/
+├── src/
+│   ├── app/ (Main app component)
+│   ├── pages/ (Page components)
+│   ├── features/ (Feature modules)
+│   │   └── auth/ (Authentication)
+│   ├── entities/ (Domain models)
+│   ├── shared/ (Shared utilities)
+│   │   ├── api/ (HTTP client)
+│   │   ├── lib/ (Utilities)
+│   │   └── ui/ (Reusable components)
+│   ├── widgets/ (Complex components)
+│   └── assets/ (Images, fonts)
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+├── tailwind.config.js
+└── postcss.config.js
+
+Infrastructure:
+├── docker-compose.yml (Service orchestration)
+├── prometheus/prometheus.yml (Metrics config)
+├── logging/
+│   ├── loki-config.yaml (Log aggregation)
+│   └── promtail-config.yaml (Log collection)
+└── docs/
+    ├── adr/ (Architecture Decision Records)
+    └── setup/ (Setup documentation)
+
+================================================================================
+BUSINESS DOMAIN & USE CASES
+================================================================================
+
+User Management:
+- Users can register and create accounts
+- Users can log in with credentials
+- Role-based access control for different user types
+- Session management
+
+Inventory Operations:
+- Managers can add and manage products
+- Real-time stock level visibility
+- Low stock alerts for inventory planning
+- Historical inventory tracking
+
+Warehouse Operations:
+- Manage multiple warehouse locations
+- Track products in specific warehouses
+- Warehouse-level reporting
+
+Logistics & Shipping:
+- Create shipments from inventory
+- Track shipment status
+- Automatic stock adjustment
+- Shipment notifications
+
+Admin & Monitoring:
+- Real-time dashboard with KPIs
+- System health monitoring
+- Performance metrics
+- Audit trail review
+
+Notifications:
+- Email alerts for shipments
+- Low stock warnings
+- System notifications
+
+================================================================================
+TECH DECISIONS & RATIONALE
+================================================================================
+
+Backend: Java + Spring Boot
+- Reason: Enterprise stability, mature ecosystem, strong security framework
+- Benefit: Type safety, comprehensive libraries, excellent performance
+
+Frontend: React + TypeScript
+- Reason: Prevents runtime errors in complex dashboards
+- Benefit: Large ecosystem, component reusability, strong typing
+
+Database: PostgreSQL
+- Reason: Relational integrity for inventory and orders
+- Benefit: ACID compliance, powerful queries, audit trail support
+
+Message Broker: RabbitMQ
+- Reason: Reliable asynchronous processing
+- Benefit: Durability, routing flexibility, proven scalability
+
+Caching: Redis
+- Reason: High-speed in-memory data store
+- Benefit: Session management, quick cache lookups
+
+Containerization: Docker
+- Reason: Consistency across environments
+- Benefit: Dev/prod parity, easy deployment, isolated services
+
+Monitoring: Prometheus + Grafana + Loki
+- Reason: Complete observability stack
+- Benefit: Metrics, dashboards, log aggregation, alerting ready
+
+================================================================================
+SKILLS DEMONSTRATED
+================================================================================
+
+Backend Development:
+- Java 21 and Spring Boot 3.5
+- Spring Security and JWT authentication
+- Spring Data JPA and Hibernate ORM
+- RESTful API design
+- Asynchronous programming with Spring
+- Spring WebSocket and STOMP
+- Message-driven architecture
+- Exception handling and validation
+- Logging and monitoring (SLF4J, Micrometer)
+
+Frontend Development:
+- React 18 with TypeScript
+- State management (Zustand, React Query)
+- Form handling (React Hook Form, Zod)
+- Component design and reusability
+- Responsive UI (Tailwind CSS)
+- Real-time communication (WebSocket, STOMP)
+- HTTP client integration (Axios)
+- UI/UX implementation
+
+Database Design:
+- PostgreSQL schema design
+- Relational data modeling
+- Query optimization
+- Indexing strategies
+- Audit logging (Hibernate Envers)
+- Transaction management
+
+DevOps & Infrastructure:
+- Docker containerization
+- Docker Compose orchestration
+- Service networking
+- Volume management
+- Environment configuration
+- Multi-stage Docker builds
+
+Monitoring & Observability:
+- Prometheus metrics
+- Grafana dashboards
+- Application health checks
+- Log aggregation (Loki)
+- Performance monitoring
+
+Software Architecture:
+- Layered architecture design
+- Separation of concerns
+- Event-driven patterns
+- Service-oriented design
+- Clean code principles
+
+Testing & Quality:
+- Unit testing (JUnit 5, Mockito)
+- Test-driven development
+- Code quality practices
+
+Problem Solving:
+- Debugging complex issues
+- Network troubleshooting
+- Performance optimization
+- Integration testing
+- Requirements analysis
+
+================================================================================
+POTENTIAL NEXT FEATURES / FUTURE ENHANCEMENTS
+================================================================================
+
+Currently Possible:
+- Payment processing (Stripe already integrated)
+- Advanced analytics and reporting
+- Predictive inventory management (AI/ML ready)
+- Mobile app development
+- Third-party API integrations
+- Subscription management
+- Advanced search and filtering
+- Bulk import/export features
+
+Architecture Supports:
+- Horizontal scaling
+- Load balancing
+- Distributed caching
+- Event sourcing
+- CQRS pattern implementation
+- Multi-tenancy
+- Microservices decomposition
+
+================================================================================
+GITHUB & VERSION CONTROL
+================================================================================
+
+Repository: -NexLogix-AI-Powered-Intelligent-Supply-Chain-SaaS
+Owner: AuthnSapuarachchi
+Current Branch: dev-branch
+Commits: Multiple commits tracking features and bug fixes
+Git History: Feature implementation history with clear commit messages
+
+================================================================================
+PROJECT DURATION & CONTEXT
+================================================================================
+
+Development Status: Active development (as of December 2025)
+Phase: Feature development and production hardening
+Recent Work: 
+- RabbitMQ integration and setup
+- Audit logging implementation
+- JWT authentication enhancements
+- WebSocket real-time updates
+- Email notification system
+
+================================================================================
+METRICS & DEPLOYMENT
+================================================================================
+
+Services Running:
+- 11 containerized services
+- 8080/8081 (Backend API)
+- 80 (Frontend)
+- 5433 (PostgreSQL)
+- 6379 (Redis)
+- 5672/15672 (RabbitMQ)
+- 9090 (Prometheus)
+- 3000 (Grafana)
+- 3100 (Loki)
+
+Performance:
+- Backend startup time: ~15 seconds
+- API response times: Optimized with caching
+- Real-time updates: WebSocket with sub-second latency
+- Database queries: Indexed for performance
+
+Scalability:
+- Horizontally scalable backend (stateless)
+- Load balancer ready
+- Message queue for async processing
+- Caching layer for reduced DB queries
+
+================================================================================
+PRODUCTION READINESS INDICATORS
+================================================================================
+
+✓ Implemented:
+- Comprehensive error handling
+- Input validation
+- Security measures (JWT, RBAC)
+- Logging and monitoring
+- Health checks
+- Audit trails
+- Configuration management
+- Database persistence
+- Caching strategy
+
+Ready For:
+- Docker Kubernetes deployment
+- Cloud migration (AWS, Azure, GCP)
+- Horizontal scaling
+- Load balancing
+- CI/CD pipeline integration
+- Production monitoring
+- Backup and disaster recovery
+
+================================================================================
+END OF PROJECT DATA COLLECTION
+================================================================================
